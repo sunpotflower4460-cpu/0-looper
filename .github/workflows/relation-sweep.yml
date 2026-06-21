@@ -1,4 +1,4 @@
-name: relation-sweep
+name: relation-and-one-flow-sweep
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  relation-sweep:
+  sweep:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,11 +17,17 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run preset sweep
+      - name: Run relation preset sweep
         run: python3 scripts/relation_sweep.py --mode presets --seeds 30
 
-      - name: Run scaling sweep
+      - name: Run relation scaling sweep
         run: python3 scripts/relation_sweep.py --mode scaling --seeds 12
 
-      - name: Run compact grid sweep
+      - name: Run relation compact grid sweep
         run: python3 scripts/relation_sweep.py --mode grid --seeds 4 --top 12
+
+      - name: Run one-flow preset sweep
+        run: python3 scripts/one_flow_sweep.py --mode presets --seeds 20
+
+      - name: Run one-flow compact grid sweep
+        run: python3 scripts/one_flow_sweep.py --mode grid --seeds 3 --top 12
