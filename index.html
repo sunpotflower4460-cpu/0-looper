@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>0-looper — relation-first lab</title>
 <style>
-:root{--bg:#07090d;--panel:#10161b;--panel2:#151e24;--line:#26343d;--txt:#e7f0ed;--dim:#8fa09a;--accent:#72d6c9;--warn:#d6bc75}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#10201d 0,#07090d 42%);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;line-height:1.65}.wrap{max-width:980px;margin:auto;padding:18px}h1{font-size:25px;margin:0 0 4px}.sub{color:var(--dim);font-size:14px}.hero{border:1px solid var(--line);background:rgba(16,22,27,.92);border-radius:18px;padding:18px;margin:12px 0}.grid{display:grid;gap:12px}@media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px}.card h2{font-size:17px;margin:0 0 6px}.card p{color:var(--dim);font-size:14px;margin:6px 0}.btn{display:inline-block;text-decoration:none;background:#173530;color:var(--txt);border:1px solid var(--accent);border-radius:11px;padding:11px 13px;margin:8px 8px 0 0;font-weight:700}.btn.secondary{background:var(--panel2);border-color:var(--line);font-weight:500}.note{border:1px solid #3c3420;background:#1a160d;color:var(--warn);border-radius:10px;padding:10px 12px;font-size:13px;margin:12px 0}.metric{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}.metric div{border:1px solid var(--line);border-radius:10px;padding:9px;background:#0b1114}.metric b{color:var(--accent)}code{background:#0b1114;border:1px solid var(--line);padding:1px 5px;border-radius:5px}.small{font-size:12px;color:var(--dim)}</style>
+:root{--bg:#07090d;--panel:#10161b;--panel2:#151e24;--line:#26343d;--txt:#e7f0ed;--dim:#8fa09a;--accent:#72d6c9;--warn:#d6bc75}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#10201d 0,#07090d 42%);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;line-height:1.65}.wrap{max-width:980px;margin:auto;padding:18px}h1{font-size:25px;margin:0 0 4px}.sub{color:var(--dim);font-size:14px}.hero{border:1px solid var(--line);background:rgba(16,22,27,.92);border-radius:18px;padding:18px;margin:12px 0}.grid{display:grid;gap:12px}@media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px}.card h2{font-size:17px;margin:0 0 6px}.card p{color:var(--dim);font-size:14px;margin:6px 0}.btn{display:inline-block;text-decoration:none;background:#173530;color:var(--txt);border:1px solid var(--accent);border-radius:11px;padding:11px 13px;margin:8px 8px 0 0;font-weight:700}.btn.secondary{background:var(--panel2);border-color:var(--line);font-weight:500}.note{border:1px solid #3c3420;background:#1a160d;color:var(--warn);border-radius:10px;padding:10px 12px;font-size:13px;margin:12px 0}.metric{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}.metric div{border:1px solid var(--line);border-radius:10px;padding:9px;background:#0b1114}.metric b{color:var(--accent)}.small{font-size:12px;color:var(--dim)}</style>
 </head>
 <body>
 <div class="wrap">
   <div class="hero">
     <h1>0-looper</h1>
     <div class="sub">0は無ではない。関係と因果から、空間らしい幅と局所性が読めるかを見る入口。</div>
-    <div class="note">今開くべき本命は <b>relation-lab-v2.html</b> です。前の画面は 0-prism 補助実験で、関係性テンプレートは出ません。</div>
-    <a class="btn" href="./relation-lab-v2.html">関係性ラボ v2を開く</a>
+    <div class="note">今開くべき本命は <b>relation-lab-v3.html</b> です。v2 は force layout の表示が境界に張り付くことがありました。v3 は因果レイヤー表示で見ます。</div>
+    <a class="btn" href="./relation-lab-v3.html">関係性ラボ v3を開く</a>
+    <a class="btn secondary" href="./relation-lab-v2.html">v2 force表示</a>
     <a class="btn secondary" href="./zero-prism.html">0-prism補助ラボ</a>
-    <a class="btn secondary" href="./relation-lab.html">旧 relation-lab</a>
   </div>
 
   <div class="grid">
@@ -32,7 +32,7 @@
 
     <div class="card">
       <h2>何を見ればいいか</h2>
-      <p>プリズムの色ではなく、関係性ラボでは下の数字を見ます。</p>
+      <p>関係性ラボでは下の数字を見ます。</p>
       <div class="metric">
         <div><b>width</b><br>同時面・空間幅っぽさ。消えると鎖だけになる。</div>
         <div><b>longest chain</b><br>因果的な深さ。音楽でいう旋律の長さ。</div>
