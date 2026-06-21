@@ -36,7 +36,7 @@
 
 ### `relation-lab.html`
 
-関係性を軸にした新しい実験。  
+関係性を軸にした実験。  
 固定格子を使わず、event と relation だけを成長させます。
 
 - event は順番に生まれる
@@ -44,16 +44,33 @@
 - child の parent は、座標距離ではなく、関係上の compatibility と frontier から選ぶ
 - 可視化の座標は force layout で後から置くだけで、力学には使わない
 - longest chain / width / comparable ratio / degree / d hint を測る
+- 自動 sweep で見つけた推奨テンプレートを UI からすぐ試せる
 
-目的は、次を確認すること。
+第一推奨テンプレートは **woven-width**。
 
 > 関係と因果だけで、空間らしい幅と局所性が読める条件はあるか。
+
+## 自動検証
+
+`scripts/relation_sweep.py` で、代表テンプレートを headless sweep できます。
+
+```bash
+python3 scripts/relation_sweep.py --seeds 30
+```
+
+現時点の推奨順：
+
+1. **woven-width** — 第一推奨。鎖と幅が同時に残る
+2. **thin-causal** — 因果鎖強め
+3. **wide-frontier** — 安定観察向き
+4. **sparse-spacious** — 空間幅強め
 
 ## docs
 
 - `docs/00-philosophy.md` — 0、白、無音、プリズム比喩の整理
 - `docs/01-protocol.md` — 最初の 0-looper toy の測定プロトコル
 - `docs/02-relation-first-universe-hypothesis.md` — 関係性を軸にした宇宙条件の仮説
+- `docs/03-automated-sweep-results.md` — 自動 sweep 結果と推奨テンプレート
 
 ## Claim tiers
 
