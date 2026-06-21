@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>0-looper — relation-first lab</title>
+<title>0-looper — one-flow lab</title>
 <style>
 :root{--bg:#07090d;--panel:#10161b;--panel2:#151e24;--line:#26343d;--txt:#e7f0ed;--dim:#8fa09a;--accent:#72d6c9;--warn:#d6bc75}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#10201d 0,#07090d 42%);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;line-height:1.65}.wrap{max-width:980px;margin:auto;padding:18px}h1{font-size:25px;margin:0 0 4px}.sub{color:var(--dim);font-size:14px}.hero{border:1px solid var(--line);background:rgba(16,22,27,.92);border-radius:18px;padding:18px;margin:12px 0}.grid{display:grid;gap:12px}@media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px}.card h2{font-size:17px;margin:0 0 6px}.card p{color:var(--dim);font-size:14px;margin:6px 0}.btn{display:inline-block;text-decoration:none;background:#173530;color:var(--txt);border:1px solid var(--accent);border-radius:11px;padding:11px 13px;margin:8px 8px 0 0;font-weight:700}.btn.secondary{background:var(--panel2);border-color:var(--line);font-weight:500}.note{border:1px solid #3c3420;background:#1a160d;color:var(--warn);border-radius:10px;padding:10px 12px;font-size:13px;margin:12px 0}.metric{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}.metric div{border:1px solid var(--line);border-radius:10px;padding:9px;background:#0b1114}.metric b{color:var(--accent)}.small{font-size:12px;color:var(--dim)}</style>
 </head>
@@ -11,41 +11,41 @@
 <div class="wrap">
   <div class="hero">
     <h1>0-looper</h1>
-    <div class="sub">0は無ではない。関係と因果から、空間らしい幅と局所性が読めるかを見る入口。</div>
-    <div class="note">今開くべき本命は <b>relation-lab-v3.html</b> です。v2 は force layout の表示が境界に張り付くことがありました。v3 は因果レイヤー表示で見ます。</div>
-    <a class="btn" href="./relation-lab-v3.html">関係性ラボ v3を開く</a>
-    <a class="btn secondary" href="./relation-lab-v2.html">v2 force表示</a>
+    <div class="sub">0は無ではない。0/white → 差 → event → relation → causal order → geometry hint を一本の流れとして見る入口。</div>
+    <div class="note">今の本命は <b>one-flow-lab.html</b> です。0-prism と relation-lab を分けず、一本の流れに統合しました。</div>
+    <a class="btn" href="./one-flow-lab.html">one-flow labを開く</a>
+    <a class="btn secondary" href="./relation-lab-v3.html">関係性だけを見るv3</a>
     <a class="btn secondary" href="./zero-prism.html">0-prism補助ラボ</a>
   </div>
 
   <div class="grid">
     <div class="card">
       <h2>まず見るテンプレート</h2>
-      <p><b>woven-width-v2</b> が第一推奨です。自動検証では、鎖にも毛玉にも潰れず、因果的な深さと空間的な幅が同時に残りました。</p>
+      <p><b>balanced-oneflow</b> が第一推奨です。0から差が立ち、eventとrelationがほどよく生まれ、d hintが2付近に寄りやすいテンプレートです。</p>
       <div class="metric">
-        <div><b>1. woven-width-v2</b><br>最初に見る。width と longest chain のバランス型。</div>
-        <div><b>2. thin-causal-v2</b><br>因果鎖が強い。旋律・時間列を見る。</div>
-        <div><b>3. wide-frontier-v2</b><br>空間幅が強い。同時面っぽさを見る。</div>
-        <div><b>4. low-degree-web</b><br>少ない関係で幾何らしさが残るかを見る。</div>
+        <div><b>1. balanced-oneflow</b><br>一本化の第一推奨。差・event・関係がバランス良く出る。</div>
+        <div><b>2. quiet-crystallize</b><br>静かに整う。ゆらぎ少なめ。</div>
+        <div><b>3. active-web</b><br>関係が活発。濃くなりすぎに注意。</div>
+        <div><b>4. wide-memory</b><br>因果鎖・記憶を強める。</div>
       </div>
     </div>
 
     <div class="card">
       <h2>何を見ればいいか</h2>
-      <p>関係性ラボでは下の数字を見ます。</p>
+      <p>one-flow lab では「上の波形」と「下の関係グラフ」をセットで見ます。</p>
       <div class="metric">
-        <div><b>width</b><br>同時面・空間幅っぽさ。消えると鎖だけになる。</div>
-        <div><b>longest chain</b><br>因果的な深さ。音楽でいう旋律の長さ。</div>
-        <div><b>comparable r</b><br>1に近いと全順序へ崩壊。0.15〜0.35くらいが観察候補。</div>
-        <div><b>avg degree</b><br>関係の濃さ。大きすぎると毛玉。3〜6くらいが見やすい。</div>
+        <div><b>events</b><br>0/whiteから差が立ち、観測可能な出来事になった数。</div>
+        <div><b>chain</b><br>因果的な深さ。時間・旋律っぽさ。</div>
+        <div><b>width</b><br>同時面・空間幅っぽさ。</div>
+        <div><b>avg degree / r</b><br>関係の濃さ。濃すぎると毛玉、薄すぎると断片。</div>
       </div>
     </div>
   </div>
 
   <div class="card">
     <h2>この実験の目的</h2>
-    <p>最初から空間を描かず、event と relation だけを成長させます。表示位置は後付けです。つまり「座標で近いから関係する」のではなく、「関係があるから後から距離らしさを読む」方向です。</p>
-    <p class="small">claim discipline：これは宇宙生成の主張ではなく、関係＋因果順序が空間らしい幅と局所性を持てる条件を探す toy model です。</p>
+    <p>0/white から差が立ち、その差が event になり、event同士の依存から relation と causal order を読み、最後に geometry hint を測ります。</p>
+    <p class="small">claim discipline：これは宇宙生成の主張ではなく、根本原理に近づくための toy model です。</p>
   </div>
 </div>
 </body>
