@@ -17,5 +17,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run relation sweep
-        run: python3 scripts/relation_sweep.py --seeds 30
+      - name: Run preset sweep
+        run: python3 scripts/relation_sweep.py --mode presets --seeds 30
+
+      - name: Run scaling sweep
+        run: python3 scripts/relation_sweep.py --mode scaling --seeds 12
+
+      - name: Run compact grid sweep
+        run: python3 scripts/relation_sweep.py --mode grid --seeds 4 --top 12
