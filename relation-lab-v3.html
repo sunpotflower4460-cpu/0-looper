@@ -10,17 +10,17 @@
 <body>
 <div class="wrap">
 <h1>relation-lab v3</h1>
-<div class="sub">v3 は force layout をやめ、因果鎖の深さでレイヤー表示します。境界に張り付く四角形は表示アーティファクトとして避けます。</div>
-<div class="note">これは宇宙生成の主張ではありません。関係＋因果順序が、鎖にも毛玉にも潰れず、幅と深さを保つ条件を探す toy model です。</div>
+<div class="sub">因果鎖の深さでレイヤー表示します。上が初期、下が後の因果深度です。</div>
+<div class="note">これは宇宙生成の主張ではありません。関係＋因果順序が、鎖にも毛玉にも潰れず、幅と深さを保つ条件を探す toy model です。上限に達したあと再生を押すと、新しいseedで再スタートします。</div>
 <div class="grid">
 <div class="card">
 <canvas id="cv"></canvas>
-<div class="metric"><span>events <b id="n">0</b></span><span>relations <b id="e">0</b></span><span>avg degree <b id="deg">0</b></span><span>longest chain <b id="chain">0</b></span><span>width <b id="width">0</b></span><span>comparable r <b id="r">0</b></span><span>d hint <b id="dim">—</b></span><span>status <b id="status">—</b></span></div>
+<div class="metric"><span>events <b id="n">0</b></span><span>relations <b id="e">0</b></span><span>avg degree <b id="deg">0</b></span><span>longest chain <b id="chain">0</b></span><span>width <b id="width">0</b></span><span>comparable r <b id="cr">0</b></span><span>d hint <b id="dim">—</b></span><span>status <b id="status">—</b></span></div>
 <div id="plain">—</div>
 <details><summary>raw</summary><div id="raw" class="raw">—</div></details>
 </div>
 <div class="card">
-<div class="row"><button id="play" class="btn primary">▶ 再生</button><button id="step" class="btn">+1</button><button id="burst" class="btn">+50</button><button id="reset" class="btn">0へ戻す</button></div>
+<div class="row"><button id="btnPlay" class="btn primary">▶ 再生</button><button id="btnStep" class="btn">+1</button><button id="btnBurst" class="btn">+50</button><button id="btnReset" class="btn">0へ戻す</button></div>
 <div class="ctl"><label>template</label><select id="preset"></select></div><div id="templateNote">—</div>
 <div class="ctl"><label>regime</label><select id="regime"><option value="balanced">balanced causal frontier</option><option value="chain">chain collapse null</option><option value="hairball">all-to-all null</option><option value="random">random relation null</option></select></div>
 <div class="ctl"><label>birth <span id="v_birth">2</span></label><input id="s_birth" type="range" min="1" max="8" step="1"></div>
@@ -29,7 +29,7 @@
 <div class="ctl"><label>compatibility <span id="v_comp">0.50</span></label><input id="s_comp" type="range" min="0" max="1" step="0.02"></div>
 <div class="ctl"><label>balance <span id="v_balance">0.55</span></label><input id="s_balance" type="range" min="0" max="1" step="0.02"></div>
 <div class="ctl"><label>max events <span id="v_maxn">260</span></label><input id="s_maxn" type="range" min="80" max="800" step="20"></div>
-<div class="small">見方：上から下が因果鎖の深さ。横方向は同じ深さの中での並び。四角い枠に張り付いたら物理ではなく旧表示の問題。v3ではその問題を避けています。</div>
+<div class="small">見方：width=同時面/空間幅、longest chain=因果深度、comparable r=全順序への寄り、avg degree=関係の濃さ。まず woven-width-v2。</div>
 </div>
 </div>
 </div>
@@ -43,20 +43,38 @@ const T={
 'low-degree-web':{label:'low-degree-web：最小関係候補',regime:'balanced',birth:2,frontier:80,parents:2,comp:.75,balance:.20,maxn:260,note:'平均次数約3。少ない関係でどこまで幾何らしさが残るか。'},
 'chain-null':{label:'null：chain collapse',regime:'chain',birth:2,frontier:32,parents:4,comp:.5,balance:.55,maxn:260,note:'失敗例。ほぼ全順序の鎖。'},
 'hairball-null':{label:'null：hairball collapse',regime:'hairball',birth:2,frontier:32,parents:4,comp:.5,balance:.55,maxn:260,note:'失敗例。関係が濃すぎて距離が消える。'},
-'random-null':{label:'null：random relation',regime:'random',birth:2,frontier:32,parents:4,comp:.5,balance:.55,maxn:260,note:'比較例。幅はあるが因果鎖が弱くなりがち。'}};
-const P={birth:2,frontier:32,parents:4,comp:.5,balance:.55,maxn:260,regime:'balanced'};let nodes=[],edges=[],running=false,seed=1;const tau=Math.PI*2,cv=document.getElementById('cv'),ctx=cv.getContext('2d');
-function rnd(){seed|=0;seed=(seed+0x6D2B79F5)|0;let t=Math.imul(seed^seed>>>15,1|seed);t^=t+Math.imul(t^t>>>7,61|t);return((t^t>>>14)>>>0)/4294967296}function diff(a,b){let d=Math.abs(a-b)%tau;return Math.min(d,tau-d)}function fit(){let r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);cv.width=Math.max(320,Math.floor(r.width*d));cv.height=Math.max(320,Math.floor(r.height*d))}
-function root(){nodes.push({id:nodes.length,phase:rnd()*tau,q:rnd()<.5?-1:1,chain:1,anc:new Set(),parents:[]})}
-function reset(){fit();seed=(Math.random()*1e9)|0;nodes=[];edges=[];for(let i=0;i<3;i++)root();update()}
+'random-null':{label:'null：random relation',regime:'random',birth:2,frontier:32,parents:4,comp:.5,balance:.55,maxn:260,note:'比較例。幅はあるが因果鎖が弱くなりがち。'}
+};
+const P={birth:2,frontier:32,parents:4,comp:.5,balance:.55,maxn:260,regime:'balanced'};
+let nodes=[],edges=[],running=false,seed=1;
+const TAU=Math.PI*2;
+const el={cv:document.getElementById('cv'),btnPlay:document.getElementById('btnPlay'),btnStep:document.getElementById('btnStep'),btnBurst:document.getElementById('btnBurst'),btnReset:document.getElementById('btnReset'),preset:document.getElementById('preset'),regime:document.getElementById('regime'),templateNote:document.getElementById('templateNote'),plain:document.getElementById('plain'),raw:document.getElementById('raw'),n:document.getElementById('n'),e:document.getElementById('e'),deg:document.getElementById('deg'),chain:document.getElementById('chain'),width:document.getElementById('width'),cr:document.getElementById('cr'),dim:document.getElementById('dim'),status:document.getElementById('status')};
+const ctx=el.cv.getContext('2d');
+function rnd(){seed|=0;seed=(seed+0x6D2B79F5)|0;let t=Math.imul(seed^seed>>>15,1|seed);t^=t+Math.imul(t^t>>>7,61|t);return((t^t>>>14)>>>0)/4294967296}
+function diff(a,b){let d=Math.abs(a-b)%TAU;return Math.min(d,TAU-d)}
+function fit(){let r=el.cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);el.cv.width=Math.max(320,Math.floor(r.width*d));el.cv.height=Math.max(320,Math.floor(r.height*d))}
+function root(){nodes.push({id:nodes.length,phase:rnd()*TAU,q:rnd()<.5?-1:1,chain:1,anc:new Set(),parents:[]})}
+function resetLab(){fit();seed=(Math.random()*1e9)|0;nodes=[];edges=[];running=false;for(let i=0;i<3;i++)root();update()}
 function choose(){let n=nodes.length;if(P.regime==='chain')return[nodes[n-1]];let pool=P.regime==='random'?nodes:nodes.slice(Math.max(0,n-P.frontier));let want=Math.max(1,Math.floor(1+rnd()*P.parents));if(P.regime==='hairball')want=Math.min(pool.length,Math.max(8,P.parents*8));let target=nodes.reduce((a,b)=>a+b.q,0)>0?-1:1,ref=nodes[n-1].phase;return pool.map(p=>{let c=1-diff(p.phase,ref)/Math.PI,b=p.q===target?1:0,recent=1-(n-p.id)/Math.max(1,P.frontier);let s=P.regime==='balanced'?(P.comp*c+P.balance*b+.25*recent+rnd()*.25):rnd();return{s,p}}).sort((a,b)=>b.s-a.s).slice(0,want).map(x=>x.p)}
-function add(){if(nodes.length>=P.maxn)return false;let ps=choose(),phase=ps.length?ps.reduce((a,p)=>a+p.phase,0)/ps.length+(rnd()-.5)*1.1:rnd()*tau;let pq=ps.reduce((a,p)=>a+p.q,0),q=ps.length?(-Math.sign(pq|| (rnd()<.5?-1:1))):(rnd()<.5?-1:1);if(rnd()<.12)q*=-1;let anc=new Set(),chain=1;for(const p of ps){anc.add(p.id);for(const a of p.anc)anc.add(a);chain=Math.max(chain,p.chain+1)}let node={id:nodes.length,phase,q,chain,anc,parents:ps.map(p=>p.id)};nodes.push(node);for(const p of ps)edges.push({a:p.id,b:node.id});return true}
-function step(){for(let k=0;k<P.birth;k++)add();update()}
-function metrics(){let n=nodes.length,e=edges.length,deg=n?2*e/n:0,chain=nodes.reduce((m,x)=>Math.max(m,x.chain),0),levels={},comp=0;for(const x of nodes){levels[x.chain]=(levels[x.chain]||0)+1;comp+=x.anc.size}let width=Math.max(...Object.values(levels)),r=n>1?comp/(n*(n-1)/2):0,dim=n>8&&chain>1?Math.log(n)/Math.log(chain):NaN;return{n,e,deg,chain,width,r,dim,levels}}
-function positions(m){const W=cv.width,H=cv.height,pad=28,byLevel={};nodes.forEach(x=>{(byLevel[x.chain]||(byLevel[x.chain]=[])).push(x)});let pos=new Map();for(const lvl of Object.keys(byLevel).map(Number).sort((a,b)=>a-b)){let arr=byLevel[lvl].slice().sort((a,b)=>a.phase-b.phase);let y=pad+(lvl-1)/Math.max(1,m.chain-1)*(H-pad*2);arr.forEach((node,i)=>{let x=arr.length===1?W/2:pad+i/(arr.length-1)*(W-pad*2);pos.set(node.id,{x,y})})}return pos}
-function draw(){fit();let m=metrics(),pos=positions(m);ctx.clearRect(0,0,cv.width,cv.height);ctx.lineWidth=1;for(const ed of edges.slice(-2200)){let a=pos.get(ed.a),b=pos.get(ed.b);if(!a||!b)continue;ctx.strokeStyle='rgba(114,214,201,.20)';ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}for(const node of nodes){let p=pos.get(node.id);ctx.fillStyle=node.q>0?'rgba(255,122,168,.92)':'rgba(98,168,255,.92)';ctx.beginPath();ctx.arc(p.x,p.y,3.2+Math.min(4,node.parents.length*.8),0,tau);ctx.fill()}ctx.fillStyle='rgba(231,240,237,.65)';ctx.font=`${12*(devicePixelRatio||1)}px -apple-system`;ctx.fillText('top = early / bottom = later causal depth',12,18)}
-function update(){let m=metrics();n.textContent=m.n;e.textContent=m.e;deg.textContent=m.deg.toFixed(1);chain.textContent=m.chain;width.textContent=m.width;r.textContent=m.r.toFixed(2);dim.textContent=isFinite(m.dim)?m.dim.toFixed(2):'—';status.textContent=m.n>=P.maxn?'max reached':'growing';if(m.n>=P.maxn)running=false;let msg=m.n>=P.maxn?'最大event数に到達したので成長停止。これは固定化ではなく、実験上限に達した状態。':m.r>.85?'chain collapse：幅が消えている。':m.deg>18?'hairball：関係が濃すぎる。':m.width>10&&m.chain>20?'幅と鎖が同時に残っている。関係＋因果から幾何らしさを読む候補状態。':'まだ初期。もう少し走らせる。';plain.textContent='要するに：'+msg;raw.textContent=`template=${preset.value}\nregime=${P.regime}\nclaim=toy measured only; x/y are display only\nN=${m.n} edges=${m.e} avg_degree=${m.deg.toFixed(3)} longest_chain=${m.chain} width=${m.width} comparable_ratio=${m.r.toFixed(4)} d_hint=${isFinite(m.dim)?m.dim.toFixed(3):'NA'}\nparents=max ${P.parents}; frontier=${P.frontier}; comp=${P.comp}; balance=${P.balance}`;draw();play.textContent=running?'⏸ 一時停止':'▶ 再生'}
-function set(k,v){P[k]=v;let s=document.getElementById('s_'+k),o=document.getElementById('v_'+k);if(s){s.value=v;o.textContent=(k==='comp'||k==='balance')?Number(v).toFixed(2):String(v)}}function apply(name){let t=T[name];P.regime=t.regime;regime.value=P.regime;for(const k of ['birth','frontier','parents','comp','balance','maxn'])set(k,t[k]);templateNote.textContent=t.note;reset()}
-const preset=document.getElementById('preset');preset.innerHTML=Object.entries(T).map(([k,t])=>`<option value="${k}">${t.label}</option>`).join('');preset.onchange=e=>apply(e.target.value);for(const k of ['birth','frontier','parents','comp','balance','maxn'])document.getElementById('s_'+k).oninput=e=>{P[k]=parseFloat(e.target.value);document.getElementById('v_'+k).textContent=(k==='comp'||k==='balance')?P[k].toFixed(2):String(P[k])};regime.onchange=e=>{P.regime=e.target.value;reset()};play.onclick=()=>{running=!running;update()};document.getElementById('step').onclick=step;burst.onclick=()=>{for(let i=0;i<50;i++)step()};reset.onclick=reset;window.onresize=update;function loop(){if(running)step();else draw();requestAnimationFrame(loop)}apply('woven-width-v2');loop();
+function add(){if(nodes.length>=P.maxn)return false;let ps=choose(),phase=ps.length?ps.reduce((a,p)=>a+p.phase,0)/ps.length+(rnd()-.5)*1.1:rnd()*TAU;let pq=ps.reduce((a,p)=>a+p.q,0),q=ps.length?(-Math.sign(pq|| (rnd()<.5?-1:1))):(rnd()<.5?-1:1);if(rnd()<.12)q*=-1;let anc=new Set(),chain=1;for(const p of ps){anc.add(p.id);for(const a of p.anc)anc.add(a);chain=Math.max(chain,p.chain+1)}let node={id:nodes.length,phase,q,chain,anc,parents:ps.map(p=>p.id)};nodes.push(node);for(const p of ps)edges.push({a:p.id,b:node.id});return true}
+function tick(){let changed=false;for(let k=0;k<P.birth;k++)changed=add()||changed;if(!changed)running=false;update()}
+function metrics(){let n=nodes.length,e=edges.length,deg=n?2*e/n:0,chain=nodes.reduce((m,x)=>Math.max(m,x.chain),0),levels={},comp=0;for(const x of nodes){levels[x.chain]=(levels[x.chain]||0)+1;comp+=x.anc.size}let width=Math.max(...Object.values(levels)),r=n>1?comp/(n*(n-1)/2):0,dim=n>8&&chain>1?Math.log(n)/Math.log(chain):NaN;return{n,e,deg,chain,width,r,dim}}
+function positions(m){const W=el.cv.width,H=el.cv.height,pad=30,by={};nodes.forEach(x=>{(by[x.chain]||(by[x.chain]=[])).push(x)});let pos=new Map();for(const lvl of Object.keys(by).map(Number).sort((a,b)=>a-b)){let arr=by[lvl].slice().sort((a,b)=>a.phase-b.phase);let y=pad+(lvl-1)/Math.max(1,m.chain-1)*(H-pad*2);arr.forEach((node,i)=>{let x=arr.length===1?W/2:pad+i/(arr.length-1)*(W-pad*2);pos.set(node.id,{x,y})})}return pos}
+function draw(){fit();let m=metrics(),pos=positions(m);ctx.clearRect(0,0,el.cv.width,el.cv.height);ctx.lineWidth=1;for(const ed of edges.slice(-2200)){let a=pos.get(ed.a),b=pos.get(ed.b);if(!a||!b)continue;ctx.strokeStyle='rgba(114,214,201,.20)';ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}for(const node of nodes){let p=pos.get(node.id);ctx.fillStyle=node.q>0?'rgba(255,122,168,.92)':'rgba(98,168,255,.92)';ctx.beginPath();ctx.arc(p.x,p.y,3.2+Math.min(4,node.parents.length*.8),0,TAU);ctx.fill()}ctx.fillStyle='rgba(231,240,237,.65)';ctx.font=`${12*(devicePixelRatio||1)}px -apple-system`;ctx.fillText('top = early / bottom = later causal depth',12,18)}
+function update(){let m=metrics();el.n.textContent=m.n;el.e.textContent=m.e;el.deg.textContent=m.deg.toFixed(1);el.chain.textContent=m.chain;el.width.textContent=m.width;el.cr.textContent=m.r.toFixed(2);el.dim.textContent=isFinite(m.dim)?m.dim.toFixed(2):'—';let maxed=m.n>=P.maxn;el.status.textContent=maxed?'max reached':'growing';if(maxed)running=false;let msg=maxed?'最大event数に到達。再生を押すと新しいseedで再スタートします。':m.r>.85?'chain collapse：幅が消えている。':m.deg>18?'hairball：関係が濃すぎる。':m.width>10&&m.chain>20?'幅と鎖が同時に残っている。関係＋因果から幾何らしさを読む候補状態。':'まだ初期。もう少し走らせる。';el.plain.textContent='要するに：'+msg;el.raw.textContent=`template=${el.preset.value}\nregime=${P.regime}\nclaim=toy measured only; x/y are display only\nN=${m.n} edges=${m.e} avg_degree=${m.deg.toFixed(3)} longest_chain=${m.chain} width=${m.width} comparable_ratio=${m.r.toFixed(4)} d_hint=${isFinite(m.dim)?m.dim.toFixed(3):'NA'}\nparents=max ${P.parents}; frontier=${P.frontier}; comp=${P.comp}; balance=${P.balance}`;el.btnPlay.textContent=running?'⏸ 一時停止':maxed?'▶ 新しく再生':'▶ 再生';draw()}
+function setParam(k,v){P[k]=v;let s=document.getElementById('s_'+k),o=document.getElementById('v_'+k);if(s){s.value=v;o.textContent=(k==='comp'||k==='balance')?Number(v).toFixed(2):String(v)}}
+function applyTemplate(name){let t=T[name];P.regime=t.regime;el.regime.value=P.regime;for(const k of ['birth','frontier','parents','comp','balance','maxn'])setParam(k,t[k]);el.templateNote.textContent=t.note;resetLab()}
+el.preset.innerHTML=Object.entries(T).map(([k,t])=>`<option value="${k}">${t.label}</option>`).join('');
+el.preset.onchange=()=>applyTemplate(el.preset.value);
+for(const k of ['birth','frontier','parents','comp','balance','maxn'])document.getElementById('s_'+k).oninput=e=>{P[k]=parseFloat(e.target.value);document.getElementById('v_'+k).textContent=(k==='comp'||k==='balance')?P[k].toFixed(2):String(P[k]);};
+el.regime.onchange=()=>{P.regime=el.regime.value;resetLab()};
+el.btnPlay.onclick=()=>{if(nodes.length>=P.maxn){resetLab();running=true}else{running=!running}update()};
+el.btnStep.onclick=()=>tick();
+el.btnBurst.onclick=()=>{for(let i=0;i<50;i++){if(nodes.length>=P.maxn)break;add()}update()};
+el.btnReset.onclick=()=>resetLab();
+window.onresize=()=>update();
+function loop(){if(running)tick();else draw();requestAnimationFrame(loop)}
+fit();el.preset.value='woven-width-v2';applyTemplate('woven-width-v2');loop();
 </script>
 </body>
 </html>
