@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>0-looper one-flow lab</title>
+<style>
+:root{--bg:#07090d;--panel:#10161b;--panel2:#151e24;--line:#26343d;--txt:#e7f0ed;--dim:#8fa09a;--accent:#72d6c9;--warn:#d6bc75}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;line-height:1.55}.wrap{max-width:1120px;margin:auto;padding:16px}.grid{display:grid;gap:12px}@media(min-width:900px){.grid{grid-template-columns:1.25fr .85fr}}h1{font-size:20px;margin:0 0 4px}.sub,.small{color:var(--dim);font-size:13px}.note{border:1px solid #3c3420;background:#1a160d;color:var(--warn);border-radius:10px;padding:10px 12px;font-size:12px;margin:10px 0}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}.row{display:flex;gap:8px;flex-wrap:wrap}.btn,select{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:9px;padding:10px;font-size:14px}.btn{cursor:pointer}.primary{background:#173530;border-color:var(--accent)}select{width:100%}canvas{display:block;width:100%;border:1px solid var(--line);border-radius:12px;background:#030609}#field{height:150px}#graph{height:470px;margin-top:10px}.metric{display:flex;flex-wrap:wrap;gap:10px 16px;color:var(--dim);font-size:13px;margin:10px 0}.metric b{color:var(--txt);font-variant-numeric:tabular-nums}.ctl{margin:12px 0}.ctl label{display:flex;justify-content:space-between;color:var(--dim);font-size:12px}input[type=range]{width:100%}#plain,#templateNote{border:1px solid var(--accent);background:#0b1715;border-radius:10px;padding:12px;margin-top:10px;white-space:pre-wrap}.raw{white-space:pre-wrap;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#a4b7b1;background:#0b1114;border-radius:10px;padding:10px;margin-top:8px;overflow:auto}summary{cursor:pointer;color:var(--accent)}</style>
+</head>
+<body>
+<div class="wrap">
+<h1>one-flow-lab</h1>
+<div class="sub">0/white → 差 → event → relation → causal order → geometry hint を一本化した実験。</div>
+<div class="note">まだ toy model。1D carrier は計算用の足場で、空間そのものを無から作った主張ではありません。ここでは「差がeventになり、event関係から幾何らしさを読めるか」を見る。</div>
+<div class="grid">
+<div class="card">
+<canvas id="field"></canvas>
+<canvas id="graph"></canvas>
+<div class="metric"><span>step <b id="mStep">0</b></span><span>events <b id="mEvents">0</b></span><span>relations <b id="mEdges">0</b></span><span>avg degree <b id="mDeg">0</b></span><span>chain <b id="mChain">0</b></span><span>width <b id="mWidth">0</b></span><span>r <b id="mR">0</b></span><span>d hint <b id="mDim">—</b></span></div>
+<div id="plain">—</div>
+<details><summary>raw</summary><div id="raw" class="raw">—</div></details>
+</div>
+<div class="card">
+<div class="row"><button id="btnPlay" class="btn primary">▶ 再生</button><button id="btnStep" class="btn">+1</button><button id="btnBurst" class="btn">+200</button><button id="btnReset" class="btn">0へ戻す</button></div>
+<div class="ctl"><label>template</label><select id="preset"></select></div><div id="templateNote">—</div>
+<div class="ctl"><label>μ 差の増幅 <span id="v_mu">0.90</span></label><input id="s_mu" type="range" min="0.4" max="1.4" step="0.05"></div>
+<div class="ctl"><label>D にじみ <span id="v_D">0.22</span></label><input id="s_D" type="range" min="0.04" max="0.45" step="0.01"></div>
+<div class="ctl"><label>η ゆらぎ <span id="v_eta">0.012</span></label><input id="s_eta" type="range" min="0" max="0.04" step="0.002"></div>
+<div class="ctl"><label>event閾値 <span id="v_thr">0.60</span></label><input id="s_thr" type="range" min="0.25" max="1.0" step="0.01"></div>
+<div class="ctl"><label>causal半径 <span id="v_rad">3</span></label><input id="s_rad" type="range" min="1" max="12" step="1"></div>
+<div class="ctl"><label>memory <span id="v_mem">8</span></label><input id="s_mem" type="range" min="1" max="30" step="1"></div>
+<div class="ctl"><label>birth cap <span id="v_birthcap">6</span></label><input id="s_birthcap" type="range" min="1" max="24" step="1"></div>
+<div class="small">見方：上は 0/white から立った差。黒点がevent。下はevent関係グラフ。上→下が因果深度。balanced-oneflow から試す。</div>
+</div>
+</div>
+</div>
+<script>
+'use strict';
+const N=96, MAX_EVENTS=500, TAU=Math.PI*2;
+const T={
+'balanced-oneflow':{label:'★ balanced-oneflow：第一推奨',mu:.90,D:.22,eta:.012,thr:.60,rad:3,mem:8,birthcap:6,note:'第一推奨。0から差が立ち、event/relationsがほどよく生まれ、d hint ≈ 2 に寄りやすい。'},
+'quiet-crystallize':{label:'quiet-crystallize：静かに整う',mu:.75,D:.26,eta:.008,thr:.55,rad:3,mem:10,birthcap:4,note:'ゆらぎ少なめ。静かに差が立って、比較的きれいな幅が残る。'},
+'active-web':{label:'active-web：活発な関係網',mu:1.10,D:.16,eta:.016,thr:.62,rad:4,mem:8,birthcap:8,note:'event/relationsが活発。やや密だが、差→event→関係の流れが見えやすい。'},
+'wide-memory':{label:'wide-memory：記憶広め',mu:.90,D:.22,eta:.012,thr:.60,rad:4,mem:14,birthcap:6,note:'memoryを広げ、因果鎖を少し強める。'},
+'sparse-events':{label:'sparse-events：event少なめ',mu:.80,D:.26,eta:.008,thr:.70,rad:3,mem:8,birthcap:3,note:'event発生を絞る。静かな比較用。'},
+'hairball-null':{label:'null：hairball',mu:1.20,D:.35,eta:.030,thr:.35,rad:10,mem:25,birthcap:20,note:'失敗例。event/relationsが濃すぎて距離が読みにくくなる。'},
+'weak-link-null':{label:'null：weak-link',mu:.70,D:.05,eta:.004,thr:.75,rad:1,mem:2,birthcap:1,note:'失敗例。関係が弱すぎてchainが育ちにくい。'}};
+const P={mu:.90,D:.22,eta:.012,thr:.60,rad:3,mem:8,birthcap:6,dt:.08};
+let u=new Float32Array(N), prev=new Float32Array(N), refractory=new Int32Array(N), events=[], edges=[], stepNo=0, running=false, seed=1;
+const el={field:field,graph:graph,preset:preset,btnPlay:btnPlay,btnStep:btnStep,btnBurst:btnBurst,btnReset:btnReset,plain:plain,raw:raw};
+const fctx=field.getContext('2d'), gctx=graph.getContext('2d');
+function rnd(){seed|=0;seed=(seed+0x6D2B79F5)|0;let t=Math.imul(seed^seed>>>15,1|seed);t^=t+Math.imul(t^t>>>7,61|t);return((t^t>>>14)>>>0)/4294967296}function noise(){return rnd()+rnd()+rnd()+rnd()-2}function fit(c){let r=c.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);c.width=Math.floor(r.width*d);c.height=Math.floor(r.height*d)}
+function resetLab(){fit(field);fit(graph);u.fill(0);prev.fill(0);refractory.fill(-999);events=[];edges=[];stepNo=0;running=false;seed=(Math.random()*1e9)|0;update()}
+function oneStep(){prev.set(u);let next=new Float32Array(N);for(let i=0;i<N;i++){let lap=u[(i-1+N)%N]+u[(i+1)%N]-2*u[i];let du=P.D*lap+P.mu*u[i]-u[i]*u[i]*u[i]+P.eta*noise();next[i]=u[i]+P.dt*du}u=next;stepNo++;let cands=[];for(let i=0;i<N;i++){let crossed=Math.abs(u[i])>=P.thr&&Math.abs(prev[i])<P.thr;let kicked=Math.abs(u[i]-prev[i])>P.thr*.45&&Math.abs(u[i])>P.thr*.35;if((crossed||kicked)&&stepNo-refractory[i]>2)cands.push([Math.abs(u[i])+Math.abs(u[i]-prev[i]),i])}cands.sort((a,b)=>b[0]-a[0]);for(const ci of cands.slice(0,P.birthcap)){if(events.length>=MAX_EVENTS)break;let i=ci[1];refractory[i]=stepNo;let parents=[];for(let j=events.length-1;j>=0;j--){let e=events[j],age=stepNo-e.t;if(age>P.mem)break;let dx=Math.abs(i-e.x);dx=Math.min(dx,N-dx);if(dx<=P.rad&&e.t<stepNo)parents.push(j)}let anc=new Set(),chain=1;for(const p of parents){anc.add(p);for(const a of events[p].anc)anc.add(a);chain=Math.max(chain,events[p].chain+1)}events.push({x:i,t:stepNo,q:u[i]>=0?1:-1,parents,anc,chain});for(const p of parents)edges.push({a:p,b:events.length-1})}if(events.length>=MAX_EVENTS)running=false}
+function metrics(){let n=events.length,e=edges.length,deg=n?2*e/n:0,levels={},comp=0,chain=0;for(const ev of events){levels[ev.chain]=(levels[ev.chain]||0)+1;comp+=ev.anc.size;chain=Math.max(chain,ev.chain)}let width=Object.values(levels).length?Math.max(...Object.values(levels)):0,r=n>1?comp/(n*(n-1)/2):0,dim=n>8&&chain>1?Math.log(n)/Math.log(chain):NaN;return{n,e,deg,chain,width,r,dim}}
+function positions(m){let by={};events.forEach((ev,id)=>{(by[ev.chain]||(by[ev.chain]=[])).push([id,ev])});let pos=new Map(),W=graph.width,H=graph.height,pad=28;for(const lv of Object.keys(by).map(Number).sort((a,b)=>a-b)){let arr=by[lv].sort((a,b)=>a[1].x-b[1].x);let y=pad+(lv-1)/Math.max(1,m.chain-1)*(H-pad*2);arr.forEach(([id,ev],i)=>{let x=arr.length===1?W/2:pad+i/(arr.length-1)*(W-pad*2);pos.set(id,{x,y})})}return pos}
+function draw(){fit(field);fit(graph);fctx.clearRect(0,0,field.width,field.height);let mid=field.height/2;fctx.strokeStyle='rgba(255,255,255,.18)';fctx.beginPath();fctx.moveTo(0,mid);fctx.lineTo(field.width,mid);fctx.stroke();fctx.strokeStyle='#72d6c9';fctx.beginPath();for(let i=0;i<N;i++){let x=i/(N-1)*field.width,y=mid-u[i]*field.height*.35;i?fctx.lineTo(x,y):fctx.moveTo(x,y)}fctx.stroke();for(const ev of events.slice(-160)){let x=ev.x/(N-1)*field.width;fctx.fillStyle=ev.q>0?'rgba(255,122,168,.7)':'rgba(98,168,255,.7)';fctx.beginPath();fctx.arc(x,mid,2.5,0,TAU);fctx.fill()}let m=metrics(),pos=positions(m);gctx.clearRect(0,0,graph.width,graph.height);gctx.lineWidth=1;for(const ed of edges.slice(-2400)){let a=pos.get(ed.a),b=pos.get(ed.b);if(!a||!b)continue;gctx.strokeStyle='rgba(114,214,201,.20)';gctx.beginPath();gctx.moveTo(a.x,a.y);gctx.lineTo(b.x,b.y);gctx.stroke()}for(let id=0;id<events.length;id++){let ev=events[id],p=pos.get(id);if(!p)continue;gctx.fillStyle=ev.q>0?'rgba(255,122,168,.92)':'rgba(98,168,255,.92)';gctx.beginPath();gctx.arc(p.x,p.y,3+Math.min(4,ev.parents.length*.8),0,TAU);gctx.fill()}}
+function update(){let m=metrics();mStep.textContent=stepNo;mEvents.textContent=m.n;mEdges.textContent=m.e;mDeg.textContent=m.deg.toFixed(1);mChain.textContent=m.chain;mWidth.textContent=m.width;mR.textContent=m.r.toFixed(2);mDim.textContent=isFinite(m.dim)?m.dim.toFixed(2):'—';let msg=m.n>=MAX_EVENTS?'max eventsに到達。再生で新seed開始。':m.n<10?'0/whiteから差が立ち、eventを待っている。':m.deg>12?'関係が濃すぎる。hairball寄り。':m.deg<1&&m.n>30?'関係が弱い。weak-link寄り。':m.width>12&&m.chain>6?'0→差→event→relation→causal order が一本で走っている候補。':'途中。eventとrelationが育つか観察。';plain.textContent='要するに：'+msg;raw.textContent=`template=${preset.value}\nstep=${stepNo} events=${m.n} edges=${m.e} degree=${m.deg.toFixed(3)} chain=${m.chain} width=${m.width} r=${m.r.toFixed(4)} d_hint=${isFinite(m.dim)?m.dim.toFixed(3):'NA'}\nmu=${P.mu} D=${P.D} eta=${P.eta} thr=${P.thr} rad=${P.rad} mem=${P.mem} birthcap=${P.birthcap}`;btnPlay.textContent=running?'⏸ 一時停止':m.n>=MAX_EVENTS?'▶ 新seed再生':'▶ 再生';draw()}
+function setP(k,v){P[k]=v;let s=document.getElementById('s_'+k),o=document.getElementById('v_'+k);if(s){s.value=v;o.textContent=(k==='mu'||k==='D'||k==='eta'||k==='thr')?Number(v).toFixed(3).replace(/0$/,''):String(v)}}function apply(name){let t=T[name];for(const k of ['mu','D','eta','thr','rad','mem','birthcap'])setP(k,t[k]);templateNote.textContent=t.note;resetLab()}
+preset.innerHTML=Object.entries(T).map(([k,t])=>`<option value="${k}">${t.label}</option>`).join('');preset.onchange=()=>apply(preset.value);for(const k of ['mu','D','eta','thr','rad','mem','birthcap'])document.getElementById('s_'+k).oninput=e=>{P[k]=parseFloat(e.target.value);document.getElementById('v_'+k).textContent=(k==='mu'||k==='D'||k==='eta'||k==='thr')?P[k].toFixed(3).replace(/0$/,''):String(P[k])};btnPlay.onclick=()=>{if(events.length>=MAX_EVENTS){resetLab();running=true}else running=!running;update()};btnStep.onclick=()=>{oneStep();update()};btnBurst.onclick=()=>{for(let i=0;i<200;i++){if(events.length>=MAX_EVENTS)break;oneStep()}update()};btnReset.onclick=resetLab;window.onresize=update;function loop(){if(running){for(let i=0;i<4;i++)oneStep();update()}else draw();requestAnimationFrame(loop)}apply('balanced-oneflow');loop();
+</script>
+</body>
+</html>
