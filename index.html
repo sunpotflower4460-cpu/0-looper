@@ -2,100 +2,51 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>0-looper — zero is not nothing</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>0-looper — relation-first lab</title>
 <style>
-:root{
-  --bg:#07090d; --panel:#10161b; --panel2:#151e24; --line:#25333b;
-  --txt:#e7f0ed; --dim:#91a19b; --accent:#72d6c9; --warn:#caa15a;
-  --hot:#ff7aa8; --cool:#61a8ff;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;line-height:1.55}
-.wrap{max-width:1060px;margin:0 auto;padding:16px}
-h1{font-size:20px;margin:0 0 4px;letter-spacing:.01em}.sub{color:var(--dim);font-size:13px;margin-bottom:10px}
-.grid{display:grid;grid-template-columns:1fr;gap:12px}@media(min-width:900px){.grid{grid-template-columns:1.3fr .9fr}}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.22)}
-.note{border:1px solid #3c3420;background:#1a160d;color:#d6bc75;border-radius:10px;padding:10px 12px;font-size:12px;margin:10px 0}
-canvas{display:block;width:100%;border:1px solid var(--line);border-radius:10px;background:#030609}#history{height:360px}#field{height:86px;margin-top:8px}#modes{height:96px;margin-top:8px}
-.row{display:flex;gap:8px;flex-wrap:wrap}.btn{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:9px;padding:10px 12px;cursor:pointer;font-size:14px}.btn.primary{background:#173530;border-color:var(--accent)}
-.metric{display:flex;flex-wrap:wrap;gap:10px 18px;color:var(--dim);font-size:13px;margin:10px 0 0}.metric b{color:var(--txt);font-variant-numeric:tabular-nums}.metric .ok{color:#81e0b2}
-.ctl{margin:13px 0}.ctl label{display:flex;justify-content:space-between;color:var(--dim);font-size:12px;margin-bottom:4px}input[type=range]{width:100%}
-#plain{border:1px solid var(--accent);background:#0b1715;border-radius:10px;padding:12px 14px;margin-top:10px;font-size:14px;white-space:pre-wrap}.small{font-size:12px;color:var(--dim)}
-details{margin-top:10px}summary{cursor:pointer;color:var(--accent);font-size:13px}.raw{white-space:pre-wrap;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#a4b7b1;background:#0b1114;border-radius:10px;padding:10px;margin-top:8px;overflow:auto}.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:2px 8px;color:#b8c8c3;font-size:11px}
-</style>
+:root{--bg:#07090d;--panel:#10161b;--panel2:#151e24;--line:#26343d;--txt:#e7f0ed;--dim:#8fa09a;--accent:#72d6c9;--warn:#d6bc75}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#10201d 0,#07090d 42%);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;line-height:1.65}.wrap{max-width:980px;margin:auto;padding:18px}h1{font-size:25px;margin:0 0 4px}.sub{color:var(--dim);font-size:14px}.hero{border:1px solid var(--line);background:rgba(16,22,27,.92);border-radius:18px;padding:18px;margin:12px 0}.grid{display:grid;gap:12px}@media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px}.card h2{font-size:17px;margin:0 0 6px}.card p{color:var(--dim);font-size:14px;margin:6px 0}.btn{display:inline-block;text-decoration:none;background:#173530;color:var(--txt);border:1px solid var(--accent);border-radius:11px;padding:11px 13px;margin:8px 8px 0 0;font-weight:700}.btn.secondary{background:var(--panel2);border-color:var(--line);font-weight:500}.note{border:1px solid #3c3420;background:#1a160d;color:var(--warn);border-radius:10px;padding:10px 12px;font-size:13px;margin:12px 0}.metric{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}.metric div{border:1px solid var(--line);border-radius:10px;padding:9px;background:#0b1114}.metric b{color:var(--accent)}code{background:#0b1114;border:1px solid var(--line);padding:1px 5px;border-radius:5px}.small{font-size:12px;color:var(--dim)}</style>
 </head>
 <body>
 <div class="wrap">
-  <h1>0-looper <span class="pill">zero ≠ nothing</span></h1>
-  <div class="sub">白は空間ではなく、未分化の存在。0 状態に、局所ルール・ゆらぎ・不安定性を通すと、差・関係・順序が読み出せるかを見る最小ラボ。</div>
-  <div class="note">claim discipline：これは固定された 1D リング上の toy model。空間そのものを無から作った主張ではない。measured はこのコードで測ったことだけ。</div>
+  <div class="hero">
+    <h1>0-looper</h1>
+    <div class="sub">0は無ではない。関係と因果から、空間らしい幅と局所性が読めるかを見る入口。</div>
+    <div class="note">今開くべき本命は <b>relation-lab-v2.html</b> です。前の画面は 0-prism 補助実験で、関係性テンプレートは出ません。</div>
+    <a class="btn" href="./relation-lab-v2.html">関係性ラボ v2を開く</a>
+    <a class="btn secondary" href="./zero-prism.html">0-prism補助ラボ</a>
+    <a class="btn secondary" href="./relation-lab.html">旧 relation-lab</a>
+  </div>
 
   <div class="grid">
     <div class="card">
-      <div class="small">上：時間履歴。中央線が 0。青/桃は ± の差。白は未分化の基底。黒い点は event。</div>
-      <canvas id="history"></canvas>
-      <canvas id="field"></canvas>
-      <canvas id="modes"></canvas>
+      <h2>まず見るテンプレート</h2>
+      <p><b>woven-width-v2</b> が第一推奨です。自動検証では、鎖にも毛玉にも潰れず、因果的な深さと空間的な幅が同時に残りました。</p>
       <div class="metric">
-        <span>step <b id="m_step">0</b></span>
-        <span>mean |u| <b id="m_amp">0.000</b></span>
-        <span>events <b id="m_events">0</b></span>
-        <span>causes <b id="m_causes">0</b></span>
-        <span>longest chain <b id="m_chain">0</b></span>
-        <span>d hint <b id="m_dim" class="ok">—</b></span>
+        <div><b>1. woven-width-v2</b><br>最初に見る。width と longest chain のバランス型。</div>
+        <div><b>2. thin-causal-v2</b><br>因果鎖が強い。旋律・時間列を見る。</div>
+        <div><b>3. wide-frontier-v2</b><br>空間幅が強い。同時面っぽさを見る。</div>
+        <div><b>4. low-degree-web</b><br>少ない関係で幾何らしさが残るかを見る。</div>
       </div>
-      <div id="plain">—</div>
-      <details>
-        <summary>raw / claim tier</summary>
-        <div id="raw" class="raw">—</div>
-      </details>
     </div>
 
     <div class="card">
-      <div class="row">
-        <button id="play" class="btn primary">▶ 再生</button>
-        <button id="step" class="btn">+1</button>
-        <button id="reset" class="btn">0へ戻す</button>
-      </div>
-      <div class="ctl"><label>μ：差を増幅する強さ <span id="v_mu">0.90</span></label><input id="s_mu" type="range" min="0" max="1.8" step="0.05" value="0.90"></div>
-      <div class="ctl"><label>D：近傍へにじむ強さ <span id="v_D">0.22</span></label><input id="s_D" type="range" min="0" max="0.8" step="0.02" value="0.22"></div>
-      <div class="ctl"><label>η：ゆらぎ <span id="v_eta">0.012</span></label><input id="s_eta" type="range" min="0" max="0.06" step="0.002" value="0.012"></div>
-      <div class="ctl"><label>event 閾値 <span id="v_thr">0.62</span></label><input id="s_thr" type="range" min="0.15" max="1.2" step="0.01" value="0.62"></div>
-      <div class="ctl"><label>因果半径 <span id="v_rad">2</span></label><input id="s_rad" type="range" min="1" max="8" step="1" value="2"></div>
-      <div class="ctl"><label>1フレーム計算回数 <span id="v_sub">4</span></label><input id="s_sub" type="range" min="1" max="16" step="1" value="4"></div>
-      <div class="small">
-        <b>読み方</b><br>
-        0 は「何も無い」ではなく、全点が同じ値を持つ基底。そこにルールがあると、次が今に依存する。依存に向きがあるので、event 間に因果順序が生まれる。
+      <h2>何を見ればいいか</h2>
+      <p>プリズムの色ではなく、関係性ラボでは下の数字を見ます。</p>
+      <div class="metric">
+        <div><b>width</b><br>同時面・空間幅っぽさ。消えると鎖だけになる。</div>
+        <div><b>longest chain</b><br>因果的な深さ。音楽でいう旋律の長さ。</div>
+        <div><b>comparable r</b><br>1に近いと全順序へ崩壊。0.15〜0.35くらいが観察候補。</div>
+        <div><b>avg degree</b><br>関係の濃さ。大きすぎると毛玉。3〜6くらいが見やすい。</div>
       </div>
     </div>
   </div>
+
+  <div class="card">
+    <h2>この実験の目的</h2>
+    <p>最初から空間を描かず、event と relation だけを成長させます。表示位置は後付けです。つまり「座標で近いから関係する」のではなく、「関係があるから後から距離らしさを読む」方向です。</p>
+    <p class="small">claim discipline：これは宇宙生成の主張ではなく、関係＋因果順序が空間らしい幅と局所性を持てる条件を探す toy model です。</p>
+  </div>
 </div>
-<script>
-'use strict';
-const N=192, MAX_EVENTS=4200;
-const P={mu:.90,D:.22,eta:.012,thr:.62,rad:2,sub:4,dt:.08};
-let u=new Float32Array(N), v=new Float32Array(N), prev=new Float32Array(N);
-let step=0,running=false,events=[],causeCount=0,historyRows=[];
-let seed=1234567;function rnd(){seed|=0;seed=(seed+0x6D2B79F5)|0;let t=Math.imul(seed^seed>>>15,1|seed);t^=t+Math.imul(t^t>>>7,61|t);return((t^t>>>14)>>>0)/4294967296}function gauss(){let a=Math.max(rnd(),1e-9),b=Math.max(rnd(),1e-9);return Math.sqrt(-2*Math.log(a))*Math.cos(6.28318*b)}
-function reset(){for(let i=0;i<N;i++){u[i]=0;v[i]=0;prev[i]=0}step=0;events=[];causeCount=0;historyRows=[];seed=(Math.random()*1e9)|0;drawAll();}
-function one(){prev.set(u);for(let i=0;i<N;i++){let l=u[(i-1+N)%N]+u[(i+1)%N]-2*u[i];let du=P.D*l+P.mu*u[i]-u[i]*u[i]*u[i]+P.eta*gauss();v[i]=u[i]+P.dt*du;}let t=u;u=v;v=t;step++;detectEvents();if(step%2===0)captureRow();}
-function detectEvents(){let newEvents=[];for(let i=0;i<N;i++){let crossed=Math.abs(u[i])>=P.thr && Math.abs(prev[i])<P.thr;let kicked=Math.abs(u[i]-prev[i])>P.thr*.45 && Math.abs(u[i])>P.thr*.35;if(crossed||kicked){let e={x:i,t:step,sign:u[i]>=0?1:-1,chain:1,parents:0};for(let j=events.length-1;j>=0;j--){let p=events[j];if(step-p.t>5)break;let dx=Math.abs(i-p.x);dx=Math.min(dx,N-dx);if(dx<=P.rad && p.t<step){e.parents++;e.chain=Math.max(e.chain,p.chain+1);}}causeCount+=e.parents;newEvents.push(e);}}
-  if(newEvents.length){events.push(...newEvents);if(events.length>MAX_EVENTS)events=events.slice(events.length-MAX_EVENTS);} }
-function captureRow(){const row=new Float32Array(N);row.set(u);historyRows.push(row);if(historyRows.length>220)historyRows.shift();}
-function modeAmps(){let out=[];for(let k=1;k<=16;k++){let re=0,im=0;for(let i=0;i<N;i++){let a=6.28318*k*i/N;re+=u[i]*Math.cos(a);im-=u[i]*Math.sin(a);}out.push(Math.hypot(re,im)/N);}return out;}
-function fit(c){let r=c.getBoundingClientRect();let d=Math.min(window.devicePixelRatio||1,2);c.width=Math.max(10,Math.floor(r.width*d));c.height=Math.max(10,Math.floor(r.height*d));return d}
-function color(val){let x=Math.max(-1.2,Math.min(1.2,val))/1.2;if(Math.abs(x)<.035)return 'rgb(235,240,236)';if(x>0){let q=Math.min(1,x);return `rgb(${Math.floor(60+190*q)},${Math.floor(100+55*q)},${Math.floor(160+90*q)})`;}let q=Math.min(1,-x);return `rgb(${Math.floor(70+40*q)},${Math.floor(120+75*q)},${Math.floor(170+80*q)})`;}
-const ch=document.getElementById('history'), cf=document.getElementById('field'), cm=document.getElementById('modes');const gh=ch.getContext('2d'), gf=cf.getContext('2d'), gm=cm.getContext('2d');
-function drawHistory(){fit(ch);let W=ch.width,H=ch.height;gh.clearRect(0,0,W,H);let rows=historyRows.length, cellW=W/N, cellH=H/220;for(let y=0;y<rows;y++){let row=historyRows[y];for(let i=0;i<N;i++){gh.fillStyle=color(row[i]);gh.fillRect(i*cellW,y*cellH,Math.ceil(cellW)+1,Math.ceil(cellH)+1);}}gh.fillStyle='rgba(0,0,0,.8)';for(const e of events.slice(-450)){let y=(rows-1-(step-e.t)/2)*cellH;if(y>=0&&y<H){gh.beginPath();gh.arc((e.x+.5)*cellW,y,Math.max(1.2,cellW*.7),0,6.283);gh.fill();}}}
-function drawField(){fit(cf);let W=cf.width,H=cf.height;gf.clearRect(0,0,W,H);let mid=H/2;gf.strokeStyle='rgba(230,240,236,.25)';gf.beginPath();gf.moveTo(0,mid);gf.lineTo(W,mid);gf.stroke();gf.lineWidth=2;gf.beginPath();for(let i=0;i<N;i++){let x=i/(N-1)*W,y=mid-u[i]*H*.34;if(i===0)gf.moveTo(x,y);else gf.lineTo(x,y);}gf.strokeStyle='#72d6c9';gf.stroke();}
-function drawModes(){fit(cm);let W=cm.width,H=cm.height;gm.clearRect(0,0,W,H);let amps=modeAmps(),mx=Math.max(...amps,.001);let bw=W/amps.length;for(let i=0;i<amps.length;i++){let h=amps[i]/mx*(H-18);let hue=Math.floor(360*i/amps.length);gm.fillStyle=`hsl(${hue},75%,58%)`;gm.fillRect(i*bw+2,H-h-4,bw-4,h);}gm.fillStyle='rgba(231,240,237,.8)';gm.font=`${12*(window.devicePixelRatio||1)}px -apple-system`;gm.fillText('prism view: 0/white がどの波長モードに分光されたか',10,18);}
-function updateText(){let amp=0;for(let i=0;i<N;i++)amp+=Math.abs(u[i]);amp/=N;let longest=events.reduce((m,e)=>Math.max(m,e.chain),0);let dim=(events.length>8&&longest>1)?(Math.log(events.length)/Math.log(longest)).toFixed(2):'—';document.getElementById('m_step').textContent=step.toLocaleString();document.getElementById('m_amp').textContent=amp.toFixed(3);document.getElementById('m_events').textContent=events.length.toLocaleString();document.getElementById('m_causes').textContent=causeCount.toLocaleString();document.getElementById('m_chain').textContent=longest.toLocaleString();document.getElementById('m_dim').textContent=dim;let msg;if(amp<.05)msg='白に近い。差はまだ立っていない。0 は無ではなく、待機している基底。';else if(events.length<10)msg='ゆらぎが増幅され、白から色が分かれ始めた。まだ関係は薄い。';else msg='差が event になり、近傍依存から cause が読める。順序を持つ関係が、ひとつの小さな因果譜になっている。';document.getElementById('plain').textContent='要するに：'+msg;document.getElementById('raw').textContent=`claim: toy measured only\nspace: fixed 1D periodic ring, not emergent space\nrule: du = D laplacian(u) + mu*u - u^3 + eta*noise\nevent: threshold crossing / strong local change\ncause: previous nearby events within causal radius\nseed=${seed}\nN=${N} step=${step} mu=${P.mu} D=${P.D} eta=${P.eta} threshold=${P.thr} radius=${P.rad}\nevents=${events.length} causes=${causeCount} longest_chain=${longest} d_hint=${dim}`;}
-function drawAll(){drawHistory();drawField();drawModes();updateText();}
-function loop(){if(running){for(let k=0;k<P.sub;k++)one();}drawAll();requestAnimationFrame(loop)}
-function bind(id,key,digits){let s=document.getElementById(id),v=document.getElementById('v_'+key);s.addEventListener('input',()=>{P[key]=parseFloat(s.value);v.textContent=(digits===0?P[key].toFixed(0):P[key].toFixed(digits));});}
-bind('s_mu','mu',2);bind('s_D','D',2);bind('s_eta','eta',3);bind('s_thr','thr',2);bind('s_rad','rad',0);bind('s_sub','sub',0);
-document.getElementById('play').onclick=()=>{running=!running;document.getElementById('play').textContent=running?'⏸ 一時停止':'▶ 再生';};document.getElementById('step').onclick=()=>{one();drawAll();};document.getElementById('reset').onclick=reset;window.addEventListener('resize',drawAll);reset();loop();
-</script>
 </body>
 </html>
