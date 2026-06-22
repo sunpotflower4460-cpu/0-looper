@@ -224,6 +224,7 @@ GitHub Actions でも push / PR / 手動実行時に sweep が走ります。
 - `docs/14-delta-inheritance-results.md` — δ inheritance / 継承マーク の独立再現
 - `docs/15-dplus-lineage-selection-results.md` — D+ lineage selection の独立再現
 - `docs/16-current-location-synthesis.md` — 現在地までの統合整理と気づき
+- `docs/17-audit-response-and-revised-priorities.md` — 監査コメントへの応答と優先順位の更新
 
 ## Claim tiers
 
