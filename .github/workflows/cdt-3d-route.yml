@@ -1,0 +1,27 @@
+name: cdt-3d-route
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  cdt-3d-route:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run 3D CDT route machinery check
+        run: python3 scripts/cdt3d_route_min.py --mode A
+
+      - name: Run 3D CDT route bistellar check
+        run: python3 scripts/cdt3d_route_min.py --mode B --moves 5
+
+      - name: Run 3D CDT route foliation check
+        run: python3 scripts/cdt3d_route_min.py --mode C --L 3 --T 4 --moves 5
