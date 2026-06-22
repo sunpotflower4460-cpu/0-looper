@@ -1,0 +1,27 @@
+name: cdt-2d-sweep
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  cdt-2d:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run 2D CDT toy sizes
+        run: python3 scripts/cdt_2d_toy.py --mode sizes --sources 6
+
+      - name: Run 2D CDT toy rewiring null
+        run: python3 scripts/cdt_2d_toy.py --mode rewire --sources 6
+
+      - name: Run 2D CDT toy fluctuation robustness
+        run: python3 scripts/cdt_2d_toy.py --mode fluct --sources 6
