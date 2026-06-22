@@ -19,9 +19,9 @@
 5. **causal order** — 関係に向きが生まれること
 6. **observation** — 後から距離・因果・次元を読む測定器
 
-## 現在の本命実験
+## 現在の三本柱
 
-### `one-flow-lab.html`
+### 1. `one-flow-lab.html`
 
 0-prism と relation-lab を分けず、一本の流れとして見る統合ラボ。
 
@@ -41,7 +41,23 @@ width / longest chain / comparable ratio / d hint を後から読む
 
 第一推奨テンプレートは **balanced-oneflow**。
 
-> 0から差が立ち、eventとrelationがほどよく生まれ、d hintが2付近に寄りやすい。
+### 2. `scripts/async_causal_origin.py`
+
+Claude 側の「時間←変化」に対応する headless 実験。
+
+- 大域時計を入れない
+- 局所的な非同期更新だけを記録する
+- 読んだ近傍セルの直前 event を parent にする
+- DAG / causal layers / dimension scaling / CTC injection を測る
+
+### 3. `scripts/cdt_2d_toy.py`
+
+Claude 側の「空間←因果」に対応する 2D CDT toy。
+
+- 時間スライスごとの 1D 空間リング
+- 隣接スライス間の causal up/down triangles
+- diameter scaling / ball growth / spectral dimension を測る
+- rewiring で因果を壊したときのスモールワールド化を見る
 
 ## 補助実験
 
@@ -63,13 +79,21 @@ python3 scripts/one_flow_sweep.py --mode presets --seeds 20
 python3 scripts/one_flow_sweep.py --mode grid --seeds 3 --top 12
 ```
 
-現時点の推奨順：
+### async causal origin
 
-1. **balanced-oneflow** — 一本化の第一推奨
-2. **quiet-crystallize** — 静かに整う
-3. **active-web** — 関係が活発
-4. **wide-memory** — 因果鎖・記憶を強める
-5. **sparse-events** — event少なめの比較用
+```bash
+python3 scripts/async_causal_origin.py --mode summary --cells 32 --sweeps 32 --seeds 5
+python3 scripts/async_causal_origin.py --mode ctc --cells 32 --sweeps 32 --seeds 5
+python3 scripts/async_causal_origin.py --mode scaling --seeds 3
+```
+
+### 2D CDT toy
+
+```bash
+python3 scripts/cdt_2d_toy.py --mode sizes --sources 6
+python3 scripts/cdt_2d_toy.py --mode rewire --sources 6
+python3 scripts/cdt_2d_toy.py --mode fluct --sources 6
+```
 
 ### relation-only sweep
 
@@ -90,6 +114,9 @@ GitHub Actions でも push / PR / 手動実行時に sweep が走ります。
 - `docs/04-expanded-sweep-results.md` — 追加 relation sweep / scaling / grid 結果
 - `docs/05-root-principle-check.md` — 根本原理として何が足りないか
 - `docs/06-one-flow-sweep-results.md` — 一本化 one-flow sweep 結果
+- `docs/07-claude-sync-needed-info.md` — Claude 側と同期するための情報テンプレ
+- `docs/08-async-causal-origin-plan.md` — 非同期更新から時間を読む実験
+- `docs/09-cdt-2d-toy-results.md` — 2D CDT toy の再測定結果
 
 ## Claim tiers
 
