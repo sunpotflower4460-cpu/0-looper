@@ -1,0 +1,24 @@
+name: delta-inheritance
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  delta-inheritance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run delta split inheritance
+        run: python3 scripts/delta_inheritance.py --mode split --seeds 3
+
+      - name: Run delta selection bias
+        run: python3 scripts/delta_inheritance.py --mode selection --seeds 3
