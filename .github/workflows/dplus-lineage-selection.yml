@@ -1,0 +1,24 @@
+name: dplus-lineage-selection
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  dplus-lineage-selection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run D+ lineage curve
+        run: python3 scripts/dplus_lineage_selection.py --mode curve --seeds 12 --generations 20
+
+      - name: Run D+ final comparison
+        run: python3 scripts/dplus_lineage_selection.py --mode final --seeds 12 --generations 20
