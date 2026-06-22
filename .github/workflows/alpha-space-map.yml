@@ -1,0 +1,27 @@
+name: alpha-space-map
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  alpha-space-map:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run alpha third check
+        run: python3 scripts/alpha_space_map.py --mode third --seed 0
+
+      - name: Run alpha balance check
+        run: python3 scripts/alpha_space_map.py --mode balance --seed 0
+
+      - name: Run alpha SOC check
+        run: python3 scripts/alpha_space_map.py --mode soc --seed 0
