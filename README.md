@@ -19,7 +19,7 @@
 5. **causal order** — 関係に向きが生まれること
 6. **observation** — 後から距離・因果・次元を読む測定器
 
-## 現在の七本柱
+## 現在の八本柱
 
 ### 1. `one-flow-lab.html`
 
@@ -95,6 +95,14 @@ Claude 合流マップの **γ closure / 器** に対応する独立再現。
 - memory: memory/confinement proxy が元の構造への戻りやすさを上げるか
 - closure: `A→M` と `M→A` の両アームが揃う時だけ持続性が上がるか
 
+### 8. `scripts/delta_inheritance.py`
+
+Claude 合流マップの **δ inheritance / 継承マーク** に対応する独立再現。
+
+- split: closed parent を左右に分け、child に pattern / marker を渡す
+- marker inheritance: memory/marker proxy が子へ残るかを見る
+- selection bias: pattern-bearing child と marker-only child の survival を比較する
+
 ## 補助実験
 
 ### `relation-lab-v3.html`
@@ -164,6 +172,13 @@ python3 scripts/gamma_closure.py --mode memory --seeds 3
 python3 scripts/gamma_closure.py --mode closure --seeds 3
 ```
 
+### delta inheritance
+
+```bash
+python3 scripts/delta_inheritance.py --mode split --seeds 3
+python3 scripts/delta_inheritance.py --mode selection --seeds 3
+```
+
 ### relation-only sweep
 
 ```bash
@@ -190,6 +205,7 @@ GitHub Actions でも push / PR / 手動実行時に sweep が走ります。
 - `docs/11-alpha-space-map-results.md` — α third / α soc の独立再現
 - `docs/12-beta-arrow-results.md` — β arrow の独立再現
 - `docs/13-gamma-closure-results.md` — γ closure / 器 の独立再現
+- `docs/14-delta-inheritance-results.md` — δ inheritance / 継承マーク の独立再現
 
 ## Claim tiers
 
