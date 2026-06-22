@@ -19,7 +19,7 @@
 5. **causal order** — 関係に向きが生まれること
 6. **observation** — 後から距離・因果・次元を読む測定器
 
-## 現在の五本柱
+## 現在の六本柱
 
 ### 1. `one-flow-lab.html`
 
@@ -78,6 +78,15 @@ Claude 合流マップの **α third / α soc** に対応する独立再現。
 - third: 辺 vs 三角形 × 順序なし vs 因果順序
 - soc: 2D BTW sandpile の avalanche 分布
 
+### 6. `scripts/beta_arrow.py`
+
+Claude 合流マップの **β arrow** に対応する独立再現。
+
+- Kac ring: 低エントロピー初期では矢が立ち、高エントロピー初期では弱い
+- asymmetry scan: 51/49 でも faint な矢があり、閾値なし
+- complexity window: 混合の中間で複雑さが最大
+- two-arrow: 低エントロピー境界から前後両方向へエントロピーが増える
+
 ## 補助実験
 
 ### `relation-lab-v3.html`
@@ -130,6 +139,15 @@ python3 scripts/alpha_space_map.py --mode balance --seed 0
 python3 scripts/alpha_space_map.py --mode soc --seed 0
 ```
 
+### beta arrow
+
+```bash
+python3 scripts/beta_arrow.py --mode kac
+python3 scripts/beta_arrow.py --mode asym
+python3 scripts/beta_arrow.py --mode complexity
+python3 scripts/beta_arrow.py --mode twoarrow
+```
+
 ### relation-only sweep
 
 ```bash
@@ -154,6 +172,7 @@ GitHub Actions でも push / PR / 手動実行時に sweep が走ります。
 - `docs/09-cdt-2d-toy-results.md` — 2D CDT toy の再測定結果
 - `docs/10-cdt-3d-route-a-c.md` — 3D CDT ルート A-C の再現・検証
 - `docs/11-alpha-space-map-results.md` — α third / α soc の独立再現
+- `docs/12-beta-arrow-results.md` — β arrow の独立再現
 
 ## Claim tiers
 
