@@ -223,6 +223,7 @@ GitHub Actions でも push / PR / 手動実行時に sweep が走ります。
 - `docs/13-gamma-closure-results.md` — γ closure / 器 の独立再現
 - `docs/14-delta-inheritance-results.md` — δ inheritance / 継承マーク の独立再現
 - `docs/15-dplus-lineage-selection-results.md` — D+ lineage selection の独立再現
+- `docs/16-current-location-synthesis.md` — 現在地までの統合整理と気づき
 
 ## Claim tiers
 
