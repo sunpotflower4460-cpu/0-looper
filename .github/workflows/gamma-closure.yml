@@ -1,0 +1,27 @@
+name: gamma-closure
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  gamma-closure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run gamma self repair
+        run: python3 scripts/gamma_closure.py --mode self-repair --seeds 3
+
+      - name: Run gamma memory
+        run: python3 scripts/gamma_closure.py --mode memory --seeds 3
+
+      - name: Run gamma closure arms
+        run: python3 scripts/gamma_closure.py --mode closure --seeds 3
