@@ -19,7 +19,7 @@
 5. **causal order** — 関係に向きが生まれること
 6. **observation** — 後から距離・因果・次元を読む測定器
 
-## 現在の八本柱
+## 現在の九本柱
 
 ### 1. `one-flow-lab.html`
 
@@ -103,6 +103,15 @@ Claude 合流マップの **δ inheritance / 継承マーク** に対応する�
 - marker inheritance: memory/marker proxy が子へ残るかを見る
 - selection bias: pattern-bearing child と marker-only child の survival を比較する
 
+### 9. `scripts/dplus_lineage_selection.py`
+
+δ の改良版。単発 split ではなく、複数世代の lineage survival curve を見る。
+
+- repeated generations: `p` pattern と `m` marker の世代継承
+- stress selection: 世代ごとに環境 stress を入れる
+- lineage curve: pattern-only / marker-only / full-loop の残り方を比較する
+- D+ conclusion: `p↔m` 閉ループを継承する lineage だけが長期持続するかを見る
+
 ## 補助実験
 
 ### `relation-lab-v3.html`
@@ -179,6 +188,13 @@ python3 scripts/delta_inheritance.py --mode split --seeds 3
 python3 scripts/delta_inheritance.py --mode selection --seeds 3
 ```
 
+### D+ lineage selection
+
+```bash
+python3 scripts/dplus_lineage_selection.py --mode curve --seeds 12 --generations 20
+python3 scripts/dplus_lineage_selection.py --mode final --seeds 12 --generations 20
+```
+
 ### relation-only sweep
 
 ```bash
@@ -206,6 +222,7 @@ GitHub Actions でも push / PR / 手動実行時に sweep が走ります。
 - `docs/12-beta-arrow-results.md` — β arrow の独立再現
 - `docs/13-gamma-closure-results.md` — γ closure / 器 の独立再現
 - `docs/14-delta-inheritance-results.md` — δ inheritance / 継承マーク の独立再現
+- `docs/15-dplus-lineage-selection-results.md` — D+ lineage selection の独立再現
 
 ## Claim tiers
 
