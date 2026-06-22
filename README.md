@@ -19,7 +19,7 @@
 5. **causal order** — 関係に向きが生まれること
 6. **observation** — 後から距離・因果・次元を読む測定器
 
-## 現在の三本柱
+## 現在の四本柱
 
 ### 1. `one-flow-lab.html`
 
@@ -59,6 +59,16 @@ Claude 側の「空間←因果」に対応する 2D CDT toy。
 - diameter scaling / ball growth / spectral dimension を測る
 - rewiring で因果を壊したときのスモールワールド化を見る
 
+### 4. `scripts/cdt3d_route_min.py`
+
+Claude 側の「3D CDT ルート」に対応する steps A-C の検証。
+
+- A: 平らな 2+1 積層で、直径スケーリングとスペクトル次元が `d≈3` を読むか
+- B: `∂Δ4` から汎用 `(1,4)/(4,1)` move が閉3多様体条件を保つか
+- C: 葉層 3 トーラスと葉層保存 `(2,6)` move が多様体＋葉層を保つか
+
+まだ Regge 作用、Metropolis、相探索は入れていない。
+
 ## 補助実験
 
 ### `relation-lab-v3.html`
@@ -95,6 +105,14 @@ python3 scripts/cdt_2d_toy.py --mode rewire --sources 6
 python3 scripts/cdt_2d_toy.py --mode fluct --sources 6
 ```
 
+### 3D CDT route A-C
+
+```bash
+python3 scripts/cdt3d_route_min.py --mode A
+python3 scripts/cdt3d_route_min.py --mode B --moves 5
+python3 scripts/cdt3d_route_min.py --mode C --L 3 --T 4 --moves 5
+```
+
 ### relation-only sweep
 
 ```bash
@@ -117,6 +135,7 @@ GitHub Actions でも push / PR / 手動実行時に sweep が走ります。
 - `docs/07-claude-sync-needed-info.md` — Claude 側と同期するための情報テンプレ
 - `docs/08-async-causal-origin-plan.md` — 非同期更新から時間を読む実験
 - `docs/09-cdt-2d-toy-results.md` — 2D CDT toy の再測定結果
+- `docs/10-cdt-3d-route-a-c.md` — 3D CDT ルート A-C の再現・検証
 
 ## Claim tiers
 
