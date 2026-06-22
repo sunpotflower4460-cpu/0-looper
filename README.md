@@ -19,7 +19,7 @@
 5. **causal order** — 関係に向きが生まれること
 6. **observation** — 後から距離・因果・次元を読む測定器
 
-## 現在の四本柱
+## 現在の五本柱
 
 ### 1. `one-flow-lab.html`
 
@@ -69,6 +69,15 @@ Claude 側の「3D CDT ルート」に対応する steps A-C の検証。
 
 まだ Regge 作用、Metropolis、相探索は入れていない。
 
+### 5. `scripts/alpha_space_map.py`
+
+Claude 合流マップの **α third / α soc** に対応する独立再現。
+
+- width scaling: 幅指数 `β` と有効次元 `d≈1/(1-β)` の sanity check
+- branching / balance: 素朴分岐と密度フィードバックの比較
+- third: 辺 vs 三角形 × 順序なし vs 因果順序
+- soc: 2D BTW sandpile の avalanche 分布
+
 ## 補助実験
 
 ### `relation-lab-v3.html`
@@ -113,6 +122,14 @@ python3 scripts/cdt3d_route_min.py --mode B --moves 5
 python3 scripts/cdt3d_route_min.py --mode C --L 3 --T 4 --moves 5
 ```
 
+### alpha space map
+
+```bash
+python3 scripts/alpha_space_map.py --mode third --seed 0
+python3 scripts/alpha_space_map.py --mode balance --seed 0
+python3 scripts/alpha_space_map.py --mode soc --seed 0
+```
+
 ### relation-only sweep
 
 ```bash
@@ -136,6 +153,7 @@ GitHub Actions でも push / PR / 手動実行時に sweep が走ります。
 - `docs/08-async-causal-origin-plan.md` — 非同期更新から時間を読む実験
 - `docs/09-cdt-2d-toy-results.md` — 2D CDT toy の再測定結果
 - `docs/10-cdt-3d-route-a-c.md` — 3D CDT ルート A-C の再現・検証
+- `docs/11-alpha-space-map-results.md` — α third / α soc の独立再現
 
 ## Claim tiers
 
