@@ -1,4 +1,4 @@
-name: relation-and-one-flow-sweep
+name: relation-one-flow-and-async-sweep
 
 on:
   push:
@@ -31,3 +31,12 @@ jobs:
 
       - name: Run one-flow compact grid sweep
         run: python3 scripts/one_flow_sweep.py --mode grid --seeds 3 --top 12
+
+      - name: Run async causal origin summary
+        run: python3 scripts/async_causal_origin.py --mode summary --cells 32 --sweeps 32 --seeds 5
+
+      - name: Run async causal origin CTC test
+        run: python3 scripts/async_causal_origin.py --mode ctc --cells 32 --sweeps 32 --seeds 5
+
+      - name: Run async causal origin scaling
+        run: python3 scripts/async_causal_origin.py --mode scaling --seeds 3
