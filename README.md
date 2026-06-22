@@ -19,7 +19,7 @@
 5. **causal order** — 関係に向きが生まれること
 6. **observation** — 後から距離・因果・次元を読む測定器
 
-## 現在の六本柱
+## 現在の七本柱
 
 ### 1. `one-flow-lab.html`
 
@@ -87,6 +87,14 @@ Claude 合流マップの **β arrow** に対応する独立再現。
 - complexity window: 混合の中間で複雑さが最大
 - two-arrow: 低エントロピー境界から前後両方向へエントロピーが増える
 
+### 7. `scripts/gamma_closure.py`
+
+Claude 合流マップの **γ closure / 器** に対応する独立再現。
+
+- self-repair: 反応拡散 seed が半分破壊後に回復するか
+- memory: memory/confinement proxy が元の構造への戻りやすさを上げるか
+- closure: `A→M` と `M→A` の両アームが揃う時だけ持続性が上がるか
+
 ## 補助実験
 
 ### `relation-lab-v3.html`
@@ -148,6 +156,14 @@ python3 scripts/beta_arrow.py --mode complexity
 python3 scripts/beta_arrow.py --mode twoarrow
 ```
 
+### gamma closure
+
+```bash
+python3 scripts/gamma_closure.py --mode self-repair --seeds 3
+python3 scripts/gamma_closure.py --mode memory --seeds 3
+python3 scripts/gamma_closure.py --mode closure --seeds 3
+```
+
 ### relation-only sweep
 
 ```bash
@@ -173,6 +189,7 @@ GitHub Actions でも push / PR / 手動実行時に sweep が走ります。
 - `docs/10-cdt-3d-route-a-c.md` — 3D CDT ルート A-C の再現・検証
 - `docs/11-alpha-space-map-results.md` — α third / α soc の独立再現
 - `docs/12-beta-arrow-results.md` — β arrow の独立再現
+- `docs/13-gamma-closure-results.md` — γ closure / 器 の独立再現
 
 ## Claim tiers
 
