@@ -20,8 +20,11 @@ jobs:
       - name: Run flow Benard onset
         run: python3 scripts/flow_benard_transport.py --mode benard
 
-      - name: Run flow developed transport
+      - name: Run flow developed transport smoke-test
         run: python3 scripts/flow_benard_transport.py --mode transport
+
+      - name: Run non-tautological adv-diff transport check
+        run: python3 scripts/flow_transport_advdiff.py
 
       - name: Run flow Pe scaling
         run: python3 scripts/flow_benard_transport.py --mode pe
@@ -32,10 +35,10 @@ jobs:
       - name: Run boundary throughflow
         run: python3 scripts/boundary_throughflow.py --mode throughflow
 
-      - name: Run evo division inheritance neutral
+      - name: Run evo division inheritance neutral smoke-test
         run: python3 scripts/evo_division_inherit.py --mode neutral --seeds 3
 
-      - name: Run evo selection probe
+      - name: Run evo selection probe smoke-test
         run: python3 scripts/evo_division_inherit.py --mode selection --seeds 3
 
       - name: Run optional model H reduced check
