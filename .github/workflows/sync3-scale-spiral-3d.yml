@@ -1,0 +1,36 @@
+name: sync3-scale-spiral-3d
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  sync3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run DSI Efimov ladder check
+        run: python3 scripts/efimov_dsi.py
+
+      - name: Run RG limit cycle check
+        run: python3 scripts/rg_limit_cycle.py
+
+      - name: Run gravity as key checks
+        run: python3 scripts/gravity_as_key.py
+
+      - name: Run curvature on faces check
+        run: python3 scripts/curvature_on_faces.py
+
+      - name: Run dimensional transmutation check
+        run: python3 scripts/dimensional_transmutation.py
+
+      - name: Run 3D ball growth calibration
+        run: python3 scripts/ball_growth_3d.py --Ls 12 16 20
