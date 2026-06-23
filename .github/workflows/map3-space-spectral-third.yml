@@ -1,0 +1,33 @@
+name: map3-space-spectral-third
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  map3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run spectral coordinate toolbox
+        run: python3 scripts/spectral_coord.py --mode all
+
+      - name: Run Weyl dimension checks
+        run: python3 scripts/weyl_dim.py --mode all
+
+      - name: Run remesh self-consistency loop
+        run: python3 scripts/remesh_loop.py
+
+      - name: Run triangulation flip third check
+        run: python3 scripts/triangulation_flip.py
+
+      - name: Run graph boundary scaling
+        run: python3 scripts/boundary_scaling.py
