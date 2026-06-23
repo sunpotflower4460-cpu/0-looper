@@ -1,273 +1,147 @@
 # 0-looper
 
 **0 は無ではない。**  
-このリポジトリは、AeternaGenesis の根本仮説を最小の形で試すための実験場です。
+このリポジトリは、AeternaGenesis / 0-looper の根本仮説を、最小の toy / reduced mechanism check として積み上げる実験場です。
 
 > 白は空間ではなく、未分化の存在である。  
 > 0 は何も無いことではなく、まだ差が立っていない基底状態である。  
-> そこにルール・ゆらぎ・不安定性があると、差、関係、順序、因果、次元が読み出される。
+> そこにルール・ゆらぎ・不安定性があると、差、関係、因果、空間、物質、曲率、構造が読み出される。
 
-## 目的
+## Claim discipline
 
-最初から「生命」「トーラス」「宇宙」「重力」を描きません。  
-最初に置くのは、次の最小材料だけです。
+- **measured**: このコードで直接測ったこと
+- **observed**: 可視化上そう見えること
+- **interpretive**: 既存物理概念への読み替え
+- **analogy**: 音楽・神聖幾何学・生命などへの比喩
+- **frontier**: まだ未検証の前線
 
-1. **0 / white** — 差が立つ前の基底状態
-2. **rule** — 次が今にどう依存するか
-3. **event** — 差が観測可能な出来事になること
-4. **relation** — event 同士が互いに条件になること
-5. **causal order** — 関係に向きが生まれること
-6. **observation** — 後から距離・因果・次元を読む測定器
+この repo は「宇宙を作った」「本物の GR / 量子重力を導いた」とは言わない。  
+やっていることは、既知物理・toy model・reduced mechanism check を通じて、**関係 + 変化 + エントロピー + 局所性 + 第三** がどこまで一貫した構造を作るかを測ること。
 
-## 現在の九本柱
-
-### 1. `one-flow-lab.html`
-
-0-prism と relation-lab を分けず、一本の流れとして見る統合ラボ。
+## 現在の大きな鎖
 
 ```text
-0 / white
-↓
-局所ルールで差が立つ
-↓
-閾値を超えた変化が event になる
-↓
-recent + local dependency から relation を張る
-↓
-parent → child が causal order になる
-↓
-width / longest chain / comparable ratio / d hint を後から読む
+0≠無
+→ 変化
+→ 因果 = 時間
+→ 因果 + 関係 + 第三
+→ 空間
+→ 最初の差が、釣り合った物質 = 欠陥を強制
+→ 一規則が物質の動力学を強制
+→ 物質が空間を曲げる
+→ 計量が物質の力を媒介する
+→ 曲がった空間が物質・光を導く
+→ co-evolution が構造を生む
+→ 自己無撞着な束縛構造に閉じる
+→ 残るは離散の織り目の絶対スケール / 量子重力
 ```
 
-第一推奨テンプレートは **balanced-oneflow**。
+## Main tracks
 
-### 2. `scripts/async_causal_origin.py`
+### one-flow / relation / causal order
 
-Claude 側の「時間←変化」に対応する headless 実験。
+- `one-flow-lab.html` — 0/white → 差 → event → relation → causal order を一本で見るブラウザラボ
+- `scripts/one_flow_sweep.py` — one-flow の headless sweep
+- `scripts/async_causal_origin.py` — 大域時計なしの局所更新から causal layers を読む
+- `relation-lab-v3.html` — relation-only 補助ラボ
+- `zero-prism.html` — 0/white から波長モードが分かれる補助ラボ
 
-- 大域時計を入れない
-- 局所的な非同期更新だけを記録する
-- 読んだ近傍セルの直前 event を parent にする
-- DAG / causal layers / dimension scaling / CTC injection を測る
+### space / CDT / third
 
-### 3. `scripts/cdt_2d_toy.py`
-
-Claude 側の「空間←因果」に対応する 2D CDT toy。
-
-- 時間スライスごとの 1D 空間リング
-- 隣接スライス間の causal up/down triangles
-- diameter scaling / ball growth / spectral dimension を測る
-- rewiring で因果を壊したときのスモールワールド化を見る
-
-### 4. `scripts/cdt3d_route_min.py`
-
-Claude 側の「3D CDT ルート」に対応する steps A-C の検証。
-
-- A: 平らな 2+1 積層で、直径スケーリングとスペクトル次元が `d≈3` を読むか
-- B: `∂Δ4` から汎用 `(1,4)/(4,1)` move が閉3多様体条件を保つか
-- C: 葉層 3 トーラスと葉層保存 `(2,6)` move が多様体＋葉層を保つか
-
-まだ Regge 作用、Metropolis、相探索は入れていない。
-
-### 5. `scripts/alpha_space_map.py`
-
-Claude 合流マップの **α third / α soc** に対応する独立再現。
-
-- width scaling: 幅指数 `β` と有効次元 `d≈1/(1-β)` の sanity check
-- branching / balance: 素朴分岐と密度フィードバックの比較
-- third: 辺 vs 三角形 × 順序なし vs 因果順序
-- soc: 2D BTW sandpile の avalanche 分布
-
-### 6. `scripts/beta_arrow.py`
-
-Claude 合流マップの **β arrow** に対応する独立再現。
-
-- Kac ring: 低エントロピー初期では矢が立ち、高エントロピー初期では弱い
-- asymmetry scan: 51/49 でも faint な矢があり、閾値なし
-- complexity window: 混合の中間で複雑さが最大
-- two-arrow: 低エントロピー境界から前後両方向へエントロピーが増える
-
-### 7. `scripts/gamma_closure.py`
-
-Claude 合流マップの **γ closure / 器** に対応する独立再現。
-
-- self-repair: 反応拡散 seed が半分破壊後に回復するか
-- memory: memory/confinement proxy が元の構造への戻りやすさを上げるか
-- closure: `A→M` と `M→A` の両アームが揃う時だけ持続性が上がるか
-
-### 8. `scripts/delta_inheritance.py`
-
-Claude 合流マップの **δ inheritance / 継承マーク** に対応する独立再現。
-
-- split: closed parent を左右に分け、child に pattern / marker を渡す
-- marker inheritance: memory/marker proxy が子へ残るかを見る
-- selection bias: pattern-bearing child と marker-only child の survival を比較する
-
-### 9. `scripts/dplus_lineage_selection.py`
-
-δ の改良版。単発 split ではなく、複数世代の lineage survival curve を見る。
-
-- repeated generations: `p` pattern と `m` marker の世代継承
-- stress selection: 世代ごとに環境 stress を入れる
-- lineage curve: pattern-only / marker-only / full-loop の残り方を比較する
-- D+ conclusion: `p↔m` 閉ループを継承する lineage だけが長期持続するかを見る
-
-## 合流マップ2：境界・循環・器の最終前線
-
-`docs/18-map2-boundary-flow-vessel-frontier.md` と `docs/19-audit-reduced-reproducer-vs-verification.md` で整理。
-
-追加 scripts:
-
-- `scripts/flow_benard_transport.py` — Benard onset / developed transport smoke-test / Pe scaling
-- `scripts/flow_transport_advdiff.py` — 1D advection-diffusion transport mechanism check
-- `scripts/boundary_throughflow.py` — emergent heal / conserved size / load-bearing throughflow
-- `scripts/evo_division_inherit.py` — division + bistable tag inheritance smoke-test / selection negative illustration
-- `scripts/model_h_min.py` — optional reduced Model-H-like vessel check
-
-claim discipline:
-
-```text
-Benard onset / boundary heal / throughflow death-life / adv-diff transport = reduced measured
-hard-coded tau transport / tag propagation / selection probe = smoke-test or scaffold
-Pe → heart / torus circulation = interpretive
-stable active droplet / stable flowing cell / clean selection with turnover = frontier
-```
-
-## 合流マップ3：空間創発・スペクトル・第三・境界エントロピー橋
-
-`docs/20-map3-space-spectral-third-boundary.md` で整理。
-
-追加 scripts:
-
-- `scripts/spectral_coord.py` — 座標 = 最低固有モード / 巻く位相
+- `scripts/cdt_2d_toy.py` — 2D CDT toy / causal layering / rewiring null
+- `scripts/cdt3d_route_min.py` — 3D CDT route A-C scaffold
+- `scripts/alpha_space_map.py` — α third / SOC / width scaling
+- `scripts/spectral_coord.py` — 座標 = 低い固有モード / 巻く位相
 - `scripts/weyl_dim.py` — Weyl則によるスペクトル次元メーター
 - `scripts/remesh_loop.py` — graph↔coordinate 自己無撞着ループ
-- `scripts/triangulation_flip.py` — 第三=面 + 曲率制御で2-多様体を保つ
+- `scripts/triangulation_flip.py` — face/third + curvature control で2-多様体を保つ
 - `scripts/boundary_scaling.py` — 境界スケーリング / 面積則に近い次元メーター
 
-claim discipline:
+### arrow / entropy / action frontier
 
-```text
-spectral coordinates / Weyl baseline / remesh loop / triangulation flips / boundary scaling = measured toy checks
-entanglement entropy itself = needs correct solver, not implemented in dependency-free CI
-bare local rules -> integer-dimensional manifold = frontier
-third + curvature control appears irreducible in current tests
-```
+- `scripts/beta_arrow.py` — 低エントロピー境界から時間の矢
+- `scripts/entropy_action_frontier.py` — entropic spring と entropy-only crumpling
+- `scripts/causal_constraint.py` — entropy-only crumpling と causal/layered restriction の比較
 
-## 補助実験
+### boundary / flow / vessel / lineage
 
-### `relation-lab-v3.html`
+- `scripts/flow_benard_transport.py` — Benard onset / transport smoke-test / Pe scaling
+- `scripts/flow_transport_advdiff.py` — 1D advection-diffusion mechanism check
+- `scripts/boundary_throughflow.py` — boundary healing / throughflow death-life
+- `scripts/evo_division_inherit.py` — division/tag propagation smoke-test
+- `scripts/model_h_min.py` — optional reduced Model-H-like vessel check
+- `scripts/gamma_closure.py` — A→M→A closure / vessel toy
+- `scripts/delta_inheritance.py` — split / marker inheritance toy
+- `scripts/dplus_lineage_selection.py` — repeated lineage survival curve
 
-field から event を発生させず、event と relation の成長だけを見るラボ。  
-関係性だけを切り出して確認したいときに使う。
+### matter / defects / gravity
 
-### `zero-prism.html`
+- `scripts/vortex_tdgl.py` — A1/A1b: vortex pair dynamics and random quench coarsening
+- `scripts/vortex_metric_force.py` — A3: metric field makes pair energy distance-dependent
+- `scripts/defect_metric_curvature.py` — A4: defect bends graph metric
+- `scripts/gravity_toys.py` — A6/A10/A11: instability, weak lensing, self-gravity equilibrium
 
-0 / white が局所ルールでどの波長モードへ分かれるかを見る補助ラボ。
+### scale / spiral / key / 3D calibration
 
-## 自動検証
+- `scripts/efimov_dsi.py` — DSI / Efimov-style geometric ladder
+- `scripts/rg_limit_cycle.py` — RG fixed point vs limit cycle / log-periodic fingerprint
+- `scripts/gravity_as_key.py` — gravity as key: unscreenable, equivalence principle, universality
+- `scripts/curvature_on_faces.py` — curvature lives on faces / third
+- `scripts/dimensional_transmutation.py` — dimensional transmutation / generated scale
+- `scripts/ball_growth_3d.py` — 3D ball-growth calibration and locality/nonlocality contrast
 
-### one-flow sweep
+## Important corrections
+
+- **等価原理**: 一様な gravitational field がゲージ、は standard GR で厳密。
+- **scale itself is gauge**: standard GR ではない。conformal / scale-invariant program の frontier。
+- **3D ball growth**: hand-built cubic lattice は構成上3D。小さい L の slope 2.5〜2.7 は有限サイズ抑制であり、3D創発の証明ではない。
+- **reduced scripts**: 一部は physics verification ではなく regression smoke-test / scaffold。外れうる計算か、答えの符号化かを常に分ける。
+
+## Commands
 
 ```bash
+# one-flow
 python3 scripts/one_flow_sweep.py --mode presets --seeds 20
-python3 scripts/one_flow_sweep.py --mode grid --seeds 3 --top 12
-```
-
-### async causal origin
-
-```bash
-python3 scripts/async_causal_origin.py --mode summary --cells 32 --sweeps 32 --seeds 5
-python3 scripts/async_causal_origin.py --mode ctc --cells 32 --sweeps 32 --seeds 5
 python3 scripts/async_causal_origin.py --mode scaling --seeds 3
-```
 
-### 2D CDT toy
-
-```bash
+# space / third / CDT
 python3 scripts/cdt_2d_toy.py --mode sizes --sources 6
-python3 scripts/cdt_2d_toy.py --mode rewire --sources 6
-python3 scripts/cdt_2d_toy.py --mode fluct --sources 6
-```
-
-### 3D CDT route A-C
-
-```bash
 python3 scripts/cdt3d_route_min.py --mode A
-python3 scripts/cdt3d_route_min.py --mode B --moves 5
-python3 scripts/cdt3d_route_min.py --mode C --L 3 --T 4 --moves 5
-```
-
-### alpha space map
-
-```bash
 python3 scripts/alpha_space_map.py --mode third --seed 0
-python3 scripts/alpha_space_map.py --mode balance --seed 0
-python3 scripts/alpha_space_map.py --mode soc --seed 0
-```
+python3 scripts/spectral_coord.py --mode all
+python3 scripts/weyl_dim.py --mode all
+python3 scripts/triangulation_flip.py
+python3 scripts/boundary_scaling.py
 
-### beta arrow
-
-```bash
-python3 scripts/beta_arrow.py --mode kac
-python3 scripts/beta_arrow.py --mode asym
-python3 scripts/beta_arrow.py --mode complexity
+# arrow / entropy
 python3 scripts/beta_arrow.py --mode twoarrow
-```
+python3 scripts/entropy_action_frontier.py --mode all
+python3 scripts/causal_constraint.py
 
-### gamma closure
-
-```bash
-python3 scripts/gamma_closure.py --mode self-repair --seeds 3
-python3 scripts/gamma_closure.py --mode memory --seeds 3
-python3 scripts/gamma_closure.py --mode closure --seeds 3
-```
-
-### delta inheritance
-
-```bash
-python3 scripts/delta_inheritance.py --mode split --seeds 3
-python3 scripts/delta_inheritance.py --mode selection --seeds 3
-```
-
-### D+ lineage selection
-
-```bash
-python3 scripts/dplus_lineage_selection.py --mode curve --seeds 12 --generations 20
-python3 scripts/dplus_lineage_selection.py --mode final --seeds 12 --generations 20
-```
-
-### map2 boundary / flow / vessel
-
-```bash
+# boundary / flow / lineage
 python3 scripts/flow_benard_transport.py --mode all
 python3 scripts/flow_transport_advdiff.py
 python3 scripts/boundary_throughflow.py --mode all
-python3 scripts/evo_division_inherit.py --mode all --seeds 3
-python3 scripts/model_h_min.py
+python3 scripts/gamma_closure.py --mode closure --seeds 3
+python3 scripts/delta_inheritance.py --mode split --seeds 3
+python3 scripts/dplus_lineage_selection.py --mode final --seeds 12 --generations 20
+
+# matter / gravity
+python3 scripts/vortex_tdgl.py --mode all
+python3 scripts/vortex_metric_force.py
+python3 scripts/defect_metric_curvature.py
+python3 scripts/gravity_toys.py --mode all
+
+# scale / spiral / key / 3D calibration
+python3 scripts/efimov_dsi.py
+python3 scripts/rg_limit_cycle.py
+python3 scripts/gravity_as_key.py
+python3 scripts/curvature_on_faces.py
+python3 scripts/dimensional_transmutation.py
+python3 scripts/ball_growth_3d.py
 ```
 
-### map3 space / spectral / third / boundary
-
-```bash
-python3 scripts/spectral_coord.py --mode all
-python3 scripts/weyl_dim.py --mode all
-python3 scripts/remesh_loop.py
-python3 scripts/triangulation_flip.py
-python3 scripts/boundary_scaling.py
-```
-
-### relation-only sweep
-
-```bash
-python3 scripts/relation_sweep.py --mode presets --seeds 30
-python3 scripts/relation_sweep.py --mode scaling --seeds 12
-python3 scripts/relation_sweep.py --mode grid --seeds 4 --top 12
-```
-
-GitHub Actions でも push / PR / 手動実行時に sweep が走ります。
-
-## docs
+## Docs
 
 - `docs/00-philosophy.md` — 0、白、無音、プリズム比喩の整理
 - `docs/01-protocol.md` — 最初の 0-looper toy の測定プロトコル
@@ -287,19 +161,25 @@ GitHub Actions でも push / PR / 手動実行時に sweep が走ります。
 - `docs/15-dplus-lineage-selection-results.md` — D+ lineage selection の独立再現
 - `docs/16-current-location-synthesis.md` — 現在地までの統合整理と気づき
 - `docs/17-audit-response-and-revised-priorities.md` — 監査コメントへの応答と優先順位の更新
-- `docs/18-map2-boundary-flow-vessel-frontier.md` — 合流マップ2：境界・循環・器の最終前線
+- `docs/18-map2-boundary-flow-vessel-frontier.md` — 境界・循環・器の最終前線
 - `docs/19-audit-reduced-reproducer-vs-verification.md` — reduced reproducer と物理検証の監査整理
-- `docs/20-map3-space-spectral-third-boundary.md` — 合流マップ3：空間創発・スペクトル・第三・境界エントロピー橋
+- `docs/20-map3-space-spectral-third-boundary.md` — 空間創発・スペクトル・第三・境界エントロピー橋
+- `docs/21-map4-defects-force-entropy-action.md` — 欠陥・力・計量曲率・エントロピー/作用
+- `docs/22-map4-full-matter-gravity-unification-sync.md` — 物質・重力・空間と物質の統一
+- `docs/23-scale-spiral-key-equivalence-3d-start.md` — 量子/白/螺旋/キー/等価原理/3D開始
+- `docs/24-full-journey-current-frontier.md` — 0≠無から最深フロンティアまでの全旅程
 
-## Claim tiers
+## Next frontier
 
-- **measured**: このコードで直接測ったこと
-- **observed**: 可視化上そう見えること
-- **interpretive**: 既存物理概念への読み替え
-- **analogy**: 音楽・神聖幾何学・生命への比喩
-- **frontier**: まだ未検証の前線
+```text
+3D causal stack toy
+3D vortex line / loop toy
+stronger CDT bridge
+entanglement / induced gravity branch with real linear algebra dependencies
+```
 
 ## 現在の合言葉
 
-> 無音は、音楽の不在ではない。  
-> それは、まだ鳴っていない音楽を受け止める基底である。
+> 0≠無から、差・因果・第三・空間・物質・曲率・構造までは、かなり一本の鎖になった。  
+> でも最後に残るのは、離散の織り目の絶対スケール。  
+> そこが量子重力であり、次は同じ要件で 3D が試金石になる。
