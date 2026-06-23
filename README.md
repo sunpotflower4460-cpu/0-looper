@@ -112,6 +112,25 @@ Claude 合流マップの **δ inheritance / 継承マーク** に対応する�
 - lineage curve: pattern-only / marker-only / full-loop の残り方を比較する
 - D+ conclusion: `p↔m` 閉ループを継承する lineage だけが長期持続するかを見る
 
+## 合流マップ2：境界・循環・器の最終前線
+
+`docs/18-map2-boundary-flow-vessel-frontier.md` で整理。
+
+追加 scripts:
+
+- `scripts/flow_benard_transport.py` — Benard onset / developed transport / Pe scaling
+- `scripts/boundary_throughflow.py` — emergent heal / conserved size / load-bearing throughflow
+- `scripts/evo_division_inherit.py` — division + bistable tag inheritance / selection negative
+- `scripts/model_h_min.py` — optional reduced Model-H-like vessel check
+
+claim discipline:
+
+```text
+flow onset / 12x transport / boundary healing / throughflow death-life / division inheritance = reduced measured
+Pe → heart / torus circulation = interpretive
+stable active droplet / stable flowing cell / clean selection with turnover = frontier
+```
+
 ## 補助実験
 
 ### `relation-lab-v3.html`
@@ -195,6 +214,15 @@ python3 scripts/dplus_lineage_selection.py --mode curve --seeds 12 --generations
 python3 scripts/dplus_lineage_selection.py --mode final --seeds 12 --generations 20
 ```
 
+### map2 boundary / flow / vessel
+
+```bash
+python3 scripts/flow_benard_transport.py --mode all
+python3 scripts/boundary_throughflow.py --mode all
+python3 scripts/evo_division_inherit.py --mode all --seeds 3
+python3 scripts/model_h_min.py
+```
+
 ### relation-only sweep
 
 ```bash
@@ -225,6 +253,7 @@ GitHub Actions でも push / PR / 手動実行時に sweep が走ります。
 - `docs/15-dplus-lineage-selection-results.md` — D+ lineage selection の独立再現
 - `docs/16-current-location-synthesis.md` — 現在地までの統合整理と気づき
 - `docs/17-audit-response-and-revised-priorities.md` — 監査コメントへの応答と優先順位の更新
+- `docs/18-map2-boundary-flow-vessel-frontier.md` — 合流マップ2：境界・循環・器の最終前線
 
 ## Claim tiers
 
