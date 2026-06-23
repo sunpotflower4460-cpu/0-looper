@@ -114,21 +114,44 @@ Claude 合流マップの **δ inheritance / 継承マーク** に対応する�
 
 ## 合流マップ2：境界・循環・器の最終前線
 
-`docs/18-map2-boundary-flow-vessel-frontier.md` で整理。
+`docs/18-map2-boundary-flow-vessel-frontier.md` と `docs/19-audit-reduced-reproducer-vs-verification.md` で整理。
 
 追加 scripts:
 
-- `scripts/flow_benard_transport.py` — Benard onset / developed transport / Pe scaling
+- `scripts/flow_benard_transport.py` — Benard onset / developed transport smoke-test / Pe scaling
+- `scripts/flow_transport_advdiff.py` — 1D advection-diffusion transport mechanism check
 - `scripts/boundary_throughflow.py` — emergent heal / conserved size / load-bearing throughflow
-- `scripts/evo_division_inherit.py` — division + bistable tag inheritance / selection negative
+- `scripts/evo_division_inherit.py` — division + bistable tag inheritance smoke-test / selection negative illustration
 - `scripts/model_h_min.py` — optional reduced Model-H-like vessel check
 
 claim discipline:
 
 ```text
-flow onset / 12x transport / boundary healing / throughflow death-life / division inheritance = reduced measured
+Benard onset / boundary heal / throughflow death-life / adv-diff transport = reduced measured
+hard-coded tau transport / tag propagation / selection probe = smoke-test or scaffold
 Pe → heart / torus circulation = interpretive
 stable active droplet / stable flowing cell / clean selection with turnover = frontier
+```
+
+## 合流マップ3：空間創発・スペクトル・第三・境界エントロピー橋
+
+`docs/20-map3-space-spectral-third-boundary.md` で整理。
+
+追加 scripts:
+
+- `scripts/spectral_coord.py` — 座標 = 最低固有モード / 巻く位相
+- `scripts/weyl_dim.py` — Weyl則によるスペクトル次元メーター
+- `scripts/remesh_loop.py` — graph↔coordinate 自己無撞着ループ
+- `scripts/triangulation_flip.py` — 第三=面 + 曲率制御で2-多様体を保つ
+- `scripts/boundary_scaling.py` — 境界スケーリング / 面積則に近い次元メーター
+
+claim discipline:
+
+```text
+spectral coordinates / Weyl baseline / remesh loop / triangulation flips / boundary scaling = measured toy checks
+entanglement entropy itself = needs correct solver, not implemented in dependency-free CI
+bare local rules -> integer-dimensional manifold = frontier
+third + curvature control appears irreducible in current tests
 ```
 
 ## 補助実験
@@ -218,9 +241,20 @@ python3 scripts/dplus_lineage_selection.py --mode final --seeds 12 --generations
 
 ```bash
 python3 scripts/flow_benard_transport.py --mode all
+python3 scripts/flow_transport_advdiff.py
 python3 scripts/boundary_throughflow.py --mode all
 python3 scripts/evo_division_inherit.py --mode all --seeds 3
 python3 scripts/model_h_min.py
+```
+
+### map3 space / spectral / third / boundary
+
+```bash
+python3 scripts/spectral_coord.py --mode all
+python3 scripts/weyl_dim.py --mode all
+python3 scripts/remesh_loop.py
+python3 scripts/triangulation_flip.py
+python3 scripts/boundary_scaling.py
 ```
 
 ### relation-only sweep
@@ -254,6 +288,8 @@ GitHub Actions でも push / PR / 手動実行時に sweep が走ります。
 - `docs/16-current-location-synthesis.md` — 現在地までの統合整理と気づき
 - `docs/17-audit-response-and-revised-priorities.md` — 監査コメントへの応答と優先順位の更新
 - `docs/18-map2-boundary-flow-vessel-frontier.md` — 合流マップ2：境界・循環・器の最終前線
+- `docs/19-audit-reduced-reproducer-vs-verification.md` — reduced reproducer と物理検証の監査整理
+- `docs/20-map3-space-spectral-third-boundary.md` — 合流マップ3：空間創発・スペクトル・第三・境界エントロピー橋
 
 ## Claim tiers
 
