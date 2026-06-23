@@ -1,0 +1,30 @@
+name: map4-defects-force-entropy
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  map4:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run A4 defect metric curvature
+        run: python3 scripts/defect_metric_curvature.py
+
+      - name: Run A3 vortex metric force
+        run: python3 scripts/vortex_metric_force.py
+
+      - name: Run A5 entropic spring
+        run: python3 scripts/entropy_action_frontier.py --mode spring
+
+      - name: Run A5 entropy-only triangulation flips
+        run: python3 scripts/entropy_action_frontier.py --mode flips
