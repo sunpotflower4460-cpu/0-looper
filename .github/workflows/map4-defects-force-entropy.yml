@@ -17,6 +17,12 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Run A1 controlled vortex dynamics
+        run: python3 scripts/vortex_tdgl.py --mode controlled --steps 80
+
+      - name: Run A1b vortex quench coarsening
+        run: python3 scripts/vortex_tdgl.py --mode quench --steps 80
+
       - name: Run A4 defect metric curvature
         run: python3 scripts/defect_metric_curvature.py
 
@@ -28,3 +34,15 @@ jobs:
 
       - name: Run A5 entropy-only triangulation flips
         run: python3 scripts/entropy_action_frontier.py --mode flips
+
+      - name: Run A7 causal restriction proxy
+        run: python3 scripts/causal_constraint.py
+
+      - name: Run A6 gravitational instability
+        run: python3 scripts/gravity_toys.py --mode instability
+
+      - name: Run A10 weak lensing
+        run: python3 scripts/gravity_toys.py --mode lensing
+
+      - name: Run A11 self-gravity equilibrium
+        run: python3 scripts/gravity_toys.py --mode equilibrium
