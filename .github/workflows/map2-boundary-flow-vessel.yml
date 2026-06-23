@@ -1,0 +1,42 @@
+name: map2-boundary-flow-vessel
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  map2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run flow Benard onset
+        run: python3 scripts/flow_benard_transport.py --mode benard
+
+      - name: Run flow developed transport
+        run: python3 scripts/flow_benard_transport.py --mode transport
+
+      - name: Run flow Pe scaling
+        run: python3 scripts/flow_benard_transport.py --mode pe
+
+      - name: Run boundary healing
+        run: python3 scripts/boundary_throughflow.py --mode heal
+
+      - name: Run boundary throughflow
+        run: python3 scripts/boundary_throughflow.py --mode throughflow
+
+      - name: Run evo division inheritance neutral
+        run: python3 scripts/evo_division_inherit.py --mode neutral --seeds 3
+
+      - name: Run evo selection probe
+        run: python3 scripts/evo_division_inherit.py --mode selection --seeds 3
+
+      - name: Run optional model H reduced check
+        run: python3 scripts/model_h_min.py
